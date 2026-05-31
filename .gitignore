@@ -1,0 +1,13 @@
+node_modules
+build
+.svelte-kit
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Personal data — the raw results CSV holds every runner's name/bib and must
+# never be committed or deployed. It stays local; only the anonymous
+# aggregate static/data/wrapped/stats.json (built from it) is shipped.
+src/lib/assets/data/results_20km_2026.csv
+static/data/wrapped/finishers.json

@@ -1,0 +1,89 @@
+:root {
+	--bg: #0b0d0e;
+	--bg-2: #15181a;
+	--bg-3: #1d2124;
+	--line: #2a2f33;
+	--line-2: #3a4045;
+	--ink: #f4f1ec;
+	--ink-2: #c8c2b8;
+	--ink-3: #8a8680;
+	--ink-4: #5a5750;
+	/* Primary accent. Originally #ff5a1f (Strava-orange) — repointed to
+	   teal for editorial neutrality. The variable name is kept for
+	   compatibility with the rest of the codebase. */
+	--hot: #58c7c2;
+	--hot-rgb: 88, 199, 194;
+	--cool: #58c7c2;
+	/* Secondary accent. Used to mark a sub-set inside a `--hot`-highlighted
+	   group (e.g. the reader's age bin inside their tier × sex bucket). */
+	--accent: #f0883e;
+	--accent-rgb: 240, 136, 62;
+
+	--font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+	--font-ui: 'Inter', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	--radius-pill: 999px;
+	--radius-card: 14px;
+	--radius-icon: 12px;
+	--app-height: 100dvh;
+
+	color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font-ui);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	overscroll-behavior-y: none;
+}
+
+/* Article: only the inner phase scroller scrolls. */
+html.is-article,
+html.is-article body {
+	overflow: hidden;
+	height: var(--app-height, 100dvh);
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+a {
+	color: inherit;
+}
+
+.mono {
+	font-family: var(--font-mono);
+	font-feature-settings: 'tnum' 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+	}
+}
