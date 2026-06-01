@@ -25,6 +25,11 @@ export const nl: Dict = {
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
 		scope: 'Enkel de lopers. Wandelaars en para-atletiek hebben hun eigen klassement.',
+		scopeBefore: 'Enkel de lopers. Bekijk ook het klassement van de ',
+		scopeWalkers: 'wandelaars',
+		scopeMid: ' of de ',
+		scopePara: 'para-atletiek',
+		scopeAfter: '.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
 		credit: 'Ontwikkeling en verhaal door Ambroise Carton voor Décrypte',
 		legalPrefix:

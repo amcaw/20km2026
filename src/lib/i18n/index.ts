@@ -37,7 +37,12 @@ export type Dict = {
 		noMatch: (query: string) => string;
 		hintBib: string;
 		hintName: string;
-		scope: string; // "runners only, not walkers / handisport"
+		scope: string; // plain text, used in the no-match error
+		scopeBefore: string; // linked version: prefix before the "walkers" link
+		scopeWalkers: string; // link text for the walkers ranking
+		scopeMid: string; // between the two links
+		scopePara: string; // link text for the para-athletics ranking
+		scopeAfter: string; // after the para link
 		disambig: string;
 		credit: string; // "par Ambroise Carton" byline shown above the legal line
 		legalPrefix: string; // "Aucune donnée…" up to the source link

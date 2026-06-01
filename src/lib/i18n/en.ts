@@ -25,6 +25,11 @@ export const en: Dict = {
 		hintName:
 			'Check the spelling (first name then LAST NAME, as on your bib), or try your bib number.',
 		scope: 'Runners only. Walkers and para-athletics have their own separate rankings.',
+		scopeBefore: 'Runners only. See also the rankings for ',
+		scopeWalkers: 'walkers',
+		scopeMid: ' or ',
+		scopePara: 'para-athletics',
+		scopeAfter: '.',
 		disambig: 'Several runners share this name. Pick yours:',
 		credit: 'Development and storytelling by Ambroise Carton for Décrypte',
 		legalPrefix:

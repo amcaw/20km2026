@@ -26,6 +26,11 @@ export const fr: Dict = {
 		hintName:
 			'Vérifiez l’orthographe (prénom puis NOM, comme sur le dossard), ou essayez votre numéro de dossard.',
 		scope: 'Uniquement les coureurs de la course. Les marcheurs et le parathlétisme ont leur propre classement.',
+		scopeBefore: 'Uniquement les coureurs de la course. Voir aussi le classement des ',
+		scopeWalkers: 'marcheurs',
+		scopeMid: ' ou du ',
+		scopePara: 'parathlétisme',
+		scopeAfter: '.',
 		disambig: 'Plusieurs coureurs portent ce nom. Choisissez le vôtre :',
 		credit: 'Développement et récit par Ambroise Carton pour Décrypte',
 		legalPrefix:
