@@ -14,9 +14,9 @@
 
 	type Props = {
 		me: Finisher;
-		genderCurve: RankCurve;
+		genderCurve: RankCurve | null;
 		total: number;
-		catStats: CategoryStats;
+		catStats: CategoryStats | null;
 		onRestart: () => void;
 	};
 	let { me, genderCurve, total, catStats, onRestart }: Props = $props();
@@ -32,7 +32,8 @@
 		return t().share.shareTitleGeneric(tt, Math.max(1, 100 - pct), n);
 	});
 
-	const gRank = $derived(genderRank(genderCurve, me));
+	const showGender = $derived((me.gender === 'F' || me.gender === 'M') && genderCurve != null);
+	const gRank = $derived(genderCurve ? genderRank(genderCurve, me) : null);
 
 	// Capitalised gender noun for the stat tile label (the dict noun is
 	// lower-case; capitalise the first letter for a tile heading).
@@ -67,7 +68,7 @@
 		<div class="p-label">{t().share.label}</div>
 		<h1 class="p-name">{displayName}</h1>
 		<div class="p-meta">
-			{t().share.bib} #{me.bib} · {me.category}
+			{t().share.bib} #{me.bib}{#if me.category} · {me.category}{/if}
 			{#if me.country}· {me.country}{/if}
 			{#if me.team}· {me.team}{/if}
 		</div>
@@ -81,7 +82,7 @@
 				</div>
 				<div class="p-lbl">{t().share.rankGeneral}</div>
 			</div>
-			{#if me.catRank != null}
+			{#if me.catRank != null && catStats}
 				<div class="p-stat">
 					<div class="p-num mono">
 						{fmtThousands(me.catRank)}<span class="p-sub">/ {fmtThousands(catStats.n)}</span>
@@ -89,12 +90,14 @@
 					<div class="p-lbl">{me.category}</div>
 				</div>
 			{/if}
-			<div class="p-stat">
-				<div class="p-num mono">
-					{fmtThousands(gRank.rank)}<span class="p-sub">/ {fmtThousands(gRank.size)}</span>
+			{#if showGender && gRank}
+				<div class="p-stat">
+					<div class="p-num mono">
+						{fmtThousands(gRank.rank)}<span class="p-sub">/ {fmtThousands(gRank.size)}</span>
+					</div>
+					<div class="p-lbl">{genderNoun}</div>
 				</div>
-				<div class="p-lbl">{genderNoun}</div>
-			</div>
+			{/if}
 			<div class="p-stat">
 				<div class="p-num mono">
 					{fmtPace(myPace)}<span class="p-sub">/km</span>

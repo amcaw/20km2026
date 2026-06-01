@@ -50,10 +50,10 @@ export const fr: Dict = {
 	},
 
 	gender: {
-		eyebrow: 'Au départ',
+		eyebrow: 'Coureurs de votre sexe',
 		lede: (othersN, noun, g) =>
 			`Vous n’étiez pas ${g === 'F' ? 'seule' : 'seul'}. ` +
-			`<strong class="hot mono">${othersN}</strong> autres ${noun} ont couru avec vous.`,
+			`<strong class="hot mono">${othersN}</strong> autres ${noun}, tous âges confondus, ont couru avec vous.`,
 		ledeFallback: (total) => `Vous étiez parmi les ${total} finishers.`,
 		ariaBar: 'Répartition F / M parmi les finishers',
 		labelF: 'Femmes',
@@ -64,18 +64,17 @@ export const fr: Dict = {
 	},
 
 	ageBand: {
-		eyebrow: 'Dans votre génération',
+		eyebrow: 'Votre sexe et votre âge',
 		lede: (n, band, g) =>
-			`<strong class="mono">${n}</strong> ${g === 'F' ? 'coureuses' : 'coureurs'} de votre tranche d’âge ` +
-			`(<em class="accent">${band}</em>) étaient sur la ligne de départ. ` +
-			`<em>Vous étiez bien ${g === 'F' ? 'entourée' : 'entouré'}.</em>`,
+			`Parmi ${g === 'F' ? 'elles' : 'eux'}, <strong class="mono">${n}</strong> ${g === 'F' ? 'coureuses' : 'coureurs'} partageaient aussi votre tranche d’âge ` +
+			`(<em class="accent">${band}</em>).`,
 		ledeFallback: 'Pas de pairs identifiés dans votre classe d’âge cette année.',
 		legendAll: 'Toutes les classes d’âge',
 		legendMine: (band) => `Votre classe (${band})`
 	},
 
 	catBreakdown: {
-		eyebrow: 'Toutes générations confondues',
+		eyebrow: 'Tous sexes et âges confondus',
 		ledeShare: (n, band, pct) =>
 			`Vous étiez parmi les <strong class="mono">${n}</strong> coureurs ${band}, ` +
 			`soit <strong class="mono">${pct}%</strong> de tous les finishers. ` +
@@ -92,7 +91,10 @@ export const fr: Dict = {
 	chrono: {
 		eyebrow: 'Et vous avez fini en',
 		sub: '20 km dans les jambes. <em>Chapeau pour le chrono.</em>',
-		ref: (fastest) => `Le plus rapide du jour : ${fastest}.`
+		fastestAllLabel: 'Plus rapides du jour',
+		fastestCatLabel: 'Plus rapides de votre catégorie',
+		fastestF: 'femmes',
+		fastestM: 'hommes'
 	},
 
 	pace: {

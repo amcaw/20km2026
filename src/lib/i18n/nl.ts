@@ -48,10 +48,10 @@ export const nl: Dict = {
 	},
 
 	gender: {
-		eyebrow: 'Aan de start',
+		eyebrow: 'Lopers van jouw geslacht',
 		lede: (othersN, noun) =>
 			`Je was niet alleen. ` +
-			`<strong class="hot mono">${othersN}</strong> andere ${noun} liepen met je mee.`,
+			`<strong class="hot mono">${othersN}</strong> andere ${noun}, van alle leeftijden, liepen met je mee.`,
 		ledeFallback: (total) => `Je was een van de ${total} finishers.`,
 		ariaBar: 'Verdeling vrouwen / mannen onder de finishers',
 		labelF: 'Vrouwen',
@@ -62,18 +62,17 @@ export const nl: Dict = {
 	},
 
 	ageBand: {
-		eyebrow: 'In jouw generatie',
+		eyebrow: 'Jouw geslacht en leeftijd',
 		lede: (n, band) =>
-			`<strong class="mono">${n}</strong> lopers uit jouw leeftijdsgroep ` +
-			`(<em class="accent">${band}</em>) stonden aan de start. ` +
-			`<em>Je was in goed gezelschap.</em>`,
+			`Onder hen deelden <strong class="mono">${n}</strong> ook jouw leeftijdsgroep ` +
+			`(<em class="accent">${band}</em>).`,
 		ledeFallback: 'Geen leeftijdsgenoten gevonden in jouw categorie dit jaar.',
 		legendAll: 'Alle leeftijdsgroepen',
 		legendMine: (band) => `Jouw groep (${band})`
 	},
 
 	catBreakdown: {
-		eyebrow: 'Alle generaties samen',
+		eyebrow: 'Alle geslachten en leeftijden samen',
 		ledeShare: (n, band, pct) =>
 			`Je was een van de <strong class="mono">${n}</strong> lopers ${band}, ` +
 			`oftewel <strong class="mono">${pct}%</strong> van alle finishers. ` +
@@ -90,7 +89,10 @@ export const nl: Dict = {
 	chrono: {
 		eyebrow: 'En je finishte in',
 		sub: '20 km in de benen. <em>Petje af voor die tijd.</em>',
-		ref: (fastest) => `Snelste van de dag: ${fastest}.`
+		fastestAllLabel: 'Snelste van de dag',
+		fastestCatLabel: 'Snelste in jouw categorie',
+		fastestF: 'vrouwen',
+		fastestM: 'mannen'
 	},
 
 	pace: {

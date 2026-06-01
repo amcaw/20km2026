@@ -48,10 +48,10 @@ export const en: Dict = {
 	},
 
 	gender: {
-		eyebrow: 'On the start line',
+		eyebrow: 'Runners of your gender',
 		lede: (othersN, noun) =>
 			`You weren’t alone. ` +
-			`<strong class="hot mono">${othersN}</strong> other ${noun} ran with you.`,
+			`<strong class="hot mono">${othersN}</strong> other ${noun}, of every age, ran with you.`,
 		ledeFallback: (total) => `You were among the ${total} finishers.`,
 		ariaBar: 'Women / men split among finishers',
 		labelF: 'Women',
@@ -62,18 +62,17 @@ export const en: Dict = {
 	},
 
 	ageBand: {
-		eyebrow: 'Among your generation',
+		eyebrow: 'Your gender and age',
 		lede: (n, band) =>
-			`<strong class="mono">${n}</strong> runners in your age group ` +
-			`(<em class="accent">${band}</em>) were on the start line. ` +
-			`<em>You were in good company.</em>`,
+			`Among them, <strong class="mono">${n}</strong> also shared your age group ` +
+			`(<em class="accent">${band}</em>).`,
 		ledeFallback: 'No peers identified in your age group this year.',
 		legendAll: 'All age groups',
 		legendMine: (band) => `Your group (${band})`
 	},
 
 	catBreakdown: {
-		eyebrow: 'Across all generations',
+		eyebrow: 'All genders and ages combined',
 		ledeShare: (n, band, pct) =>
 			`You were among the <strong class="mono">${n}</strong> runners ${band}, ` +
 			`that’s <strong class="mono">${pct}%</strong> of all finishers. ` +
@@ -90,7 +89,10 @@ export const en: Dict = {
 	chrono: {
 		eyebrow: 'And you finished in',
 		sub: '20 km in the legs. <em>Hats off for that time.</em>',
-		ref: (fastest) => `Fastest of the day: ${fastest}.`
+		fastestAllLabel: 'Fastest of the day',
+		fastestCatLabel: 'Fastest in your category',
+		fastestF: 'women',
+		fastestM: 'men'
 	},
 
 	pace: {

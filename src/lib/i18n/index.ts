@@ -93,7 +93,10 @@ export type Dict = {
 	chrono: {
 		eyebrow: string;
 		sub: string;
-		ref: (fastest: string) => string;
+		fastestAllLabel: string;
+		fastestCatLabel: string;
+		fastestF: string;
+		fastestM: string;
 	};
 
 	// --- pace ---

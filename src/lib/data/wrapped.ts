@@ -161,7 +161,7 @@ export async function search(query: string): Promise<Finisher[]> {
 		for (const row of g.SlaveRows ?? []) {
 			const f = rowToFinisher(row, idx);
 			if (!f) continue;
-			if (!/^[FMX](U20|\d{2})$/.test(f.category)) continue;
+			if (f.category && !/^[FMX](U20|\d{2})$/.test(f.category)) continue;
 			const hit = asBib != null ? f.bib === asBib : norm(f.name) === q;
 			if (hit) out.push(f);
 		}

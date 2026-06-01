@@ -22,6 +22,9 @@
 	const isBib = $derived(/^\d+$/.test(query.trim()));
 	const canSubmit = $derived(isBib ? query.trim().length >= 1 : query.trim().length >= 3);
 
+	let lastSubmitted = $state('');
+	const stale = $derived(query.trim() !== lastSubmitted);
+
 	async function submit(e?: SubmitEvent) {
 		e?.preventDefault();
 		if (searching) return;
@@ -29,6 +32,7 @@
 		disambiguating = false;
 		netError = false;
 		searching = true;
+		lastSubmitted = query.trim();
 		try {
 			const found = await search(query);
 			matches = found;
@@ -104,9 +108,9 @@
 		</button>
 	</form>
 
-	{#if netError}
+	{#if netError && !stale}
 		<p class="msg err">{t().search.netError}</p>
-	{:else if attempted && !searching && matches.length === 0}
+	{:else if attempted && !stale && !searching && matches.length === 0}
 		<p class="msg err">
 			{t().search.noMatch(query.trim())}
 			{#if isBib}
@@ -117,7 +121,7 @@
 		</p>
 	{/if}
 
-	{#if disambiguating}
+	{#if disambiguating && !stale}
 		<div class="disambig">
 			<p class="msg">{t().search.disambig}</p>
 			<ul class="picker">

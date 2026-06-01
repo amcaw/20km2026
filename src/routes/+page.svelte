@@ -29,8 +29,6 @@
 
 	let me = $state<Finisher | null>(null);
 
-	const TOTAL_CONTENT_SLIDES = 14;
-
 	let scrollEl = $state<HTMLElement | null>(null);
 
 	let activeSlide = $state(0);
@@ -131,6 +129,29 @@
 	const catStats = $derived(
 		me && stats ? stats.byCategory[me.category] ?? null : null
 	);
+	const hasCat = $derived(!!me && !!catStats && /^[FMX](U20|\d{2})$/.test(me.category));
+
+	const CAT_SLIDES = new Set(['gender', 'ageBand', 'catBreakdown', 'pace', 'catDist']);
+	const SLIDE_ORDER = [
+		'cover',
+		'country',
+		'gender',
+		'ageBand',
+		'catBreakdown',
+		'chrono',
+		'pace',
+		'rank',
+		'finishDist',
+		'catDist',
+		'split',
+		'speed',
+		'rankProgress',
+		'share'
+	] as const;
+	const visibleSlides = $derived(
+		hasCat ? SLIDE_ORDER : SLIDE_ORDER.filter((s) => !CAT_SLIDES.has(s))
+	);
+	const TOTAL_CONTENT_SLIDES = $derived(visibleSlides.length);
 </script>
 
 <svelte:head>
@@ -148,55 +169,48 @@
 			<SearchSlide {loading} onSelect={handleSelect} />
 		</div>
 
-		{#if me && stats && catStats}
-			<div data-slide="1">
-				<CoverSlide {me} {stats} />
-			</div>
-			<div data-slide="2">
-				<CountrySlide {me} {stats} />
-			</div>
-			<div data-slide="3">
-				<GenderSlide {me} {stats} />
-			</div>
-			<div data-slide="4">
-				<AgeBandSlide {me} {stats} />
-			</div>
-			<div data-slide="5">
-				<CategoryBreakdownSlide {me} {stats} />
-			</div>
-			<div data-slide="6">
-				<ChronoSlide {me} fastest={stats.global.fastest} />
-			</div>
-			<div data-slide="7">
-				<PaceSlide {me} {catStats} />
-			</div>
-			<div data-slide="8">
-				<RankSlide {me} total={stats.global.total} />
-			</div>
-			<div data-slide="9">
-				<FinishTimeDistSlide {me} {stats} />
-			</div>
-			<div data-slide="10">
-				<CategoryDistributionSlide {me} {catStats} />
-			</div>
-			<div data-slide="11">
-				<SplitSlide {me} {stats} />
-			</div>
-			<div data-slide="12">
-				<SpeedProfileSlide {me} />
-			</div>
-			<div data-slide="13">
-				<RankProgressSlide {me} total={stats.global.total} />
-			</div>
-			<div data-slide="14">
-				<ShareSlide
-					{me}
-					genderCurve={stats.genderRankCurve[me.gender === 'F' ? 'F' : 'M']}
-					total={stats.global.total}
-					{catStats}
-					onRestart={restart}
-				/>
-			</div>
+		{#if me && stats}
+			{#each visibleSlides as key, i (key)}
+				<div data-slide={i + 1}>
+					{#if key === 'cover'}
+						<CoverSlide {me} {stats} />
+					{:else if key === 'country'}
+						<CountrySlide {me} {stats} />
+					{:else if key === 'gender' && catStats}
+						<GenderSlide {me} {stats} />
+					{:else if key === 'ageBand' && catStats}
+						<AgeBandSlide {me} {stats} />
+					{:else if key === 'catBreakdown' && catStats}
+						<CategoryBreakdownSlide {me} {stats} />
+					{:else if key === 'chrono'}
+						<ChronoSlide {me} {stats} />
+					{:else if key === 'pace' && catStats}
+						<PaceSlide {me} {catStats} />
+					{:else if key === 'rank'}
+						<RankSlide {me} total={stats.global.total} />
+					{:else if key === 'finishDist'}
+						<FinishTimeDistSlide {me} {stats} />
+					{:else if key === 'catDist' && catStats}
+						<CategoryDistributionSlide {me} {catStats} />
+					{:else if key === 'split'}
+						<SplitSlide {me} {stats} />
+					{:else if key === 'speed'}
+						<SpeedProfileSlide {me} />
+					{:else if key === 'rankProgress'}
+						<RankProgressSlide {me} total={stats.global.total} />
+					{:else if key === 'share'}
+						<ShareSlide
+							{me}
+							genderCurve={me.gender === 'F' || me.gender === 'M'
+							? stats.genderRankCurve[me.gender]
+							: null}
+							total={stats.global.total}
+							{catStats}
+							onRestart={restart}
+						/>
+					{/if}
+				</div>
+			{/each}
 		{/if}
 	{/if}
 </main>

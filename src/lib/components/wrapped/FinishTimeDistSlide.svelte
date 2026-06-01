@@ -17,8 +17,6 @@
 	const xDomain = $derived(hist.domain as [number, number]);
 	const womenBins = $derived(hist.women);
 	const menBins = $derived(hist.men);
-	const womenCount = $derived(womenBins.reduce((a, b) => a + b, 0));
-	const menCount = $derived(menBins.reduce((a, b) => a + b, 0));
 	const yMax = $derived(Math.max(...womenBins, ...menBins, 1));
 
 	const VB_W = 1000;
@@ -49,7 +47,7 @@
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
 	<p class="eyebrow">{t().finishDist.eyebrow}</p>
 	<h2 class="lede">
-		{@html t().finishDist.lede(fmtThousands(womenCount + menCount))}
+		{@html t().finishDist.lede(fmtThousands(stats.global.total))}
 	</h2>
 
 	<div class="chart-wrap">
