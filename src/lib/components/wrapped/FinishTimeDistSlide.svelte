@@ -2,7 +2,7 @@
 	import { scaleLinear } from 'd3-scale';
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
-	import { fmtThousands, fmtTime } from '$lib/data/wrapped';
+	import { fmtThousands, fmtTime, fmtTimeShort } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 	import { t } from '$lib/i18n';
 
@@ -150,7 +150,7 @@
 						y={innerH + 56}
 						text-anchor="middle"
 						class="axis-label mono"
-					>{fmtTime(t)}</text>
+					>{fmtTimeShort(t)}</text>
 				{/each}
 			</g>
 		</svg>

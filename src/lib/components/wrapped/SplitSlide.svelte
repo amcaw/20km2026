@@ -3,7 +3,7 @@
 	import { ascending, quantile } from 'd3-array';
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
-	import { fmtTime, splitProfile } from '$lib/data/wrapped';
+	import { fmtTime, fmtTimeShort, splitProfile } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 	import { t } from '$lib/i18n';
 
@@ -128,7 +128,7 @@
 							y={innerH + 28}
 							text-anchor="middle"
 							class="axis-label mono"
-						>{fmtTime(t)}</text>
+						>{fmtTimeShort(t)}</text>
 					{/each}
 
 					<line x1={0} y1={0} x2={0} y2={innerH} stroke="var(--line)" />
@@ -145,7 +145,7 @@
 							y={y(t) + 4}
 							text-anchor="end"
 							class="axis-label mono"
-						>{fmtTime(t)}</text>
+						>{fmtTimeShort(t)}</text>
 					{/each}
 
 					<text

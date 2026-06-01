@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SlideShell from './SlideShell.svelte';
 	import type { CategoryStats, Finisher } from '$lib/data/wrapped';
-	import { categoryLabel, fmtTime } from '$lib/data/wrapped';
+	import { categoryLabel, fmtTime, fmtTimeShort } from '$lib/data/wrapped';
 	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 	import { t } from '$lib/i18n';
@@ -111,7 +111,7 @@
 					class:tick-edge={t === ticks[0] || t === ticks[ticks.length - 1]}
 					style="left: {(xOf(t) / 1000) * 100}%"
 				>
-					{fmtTime(t)}
+					{fmtTimeShort(t)}
 				</span>
 			{/each}
 			<span class="you-pill mono" style="left: {(xOf(me.t) / 1000) * 100}%">{t().catDist.you}</span>

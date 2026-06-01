@@ -19,8 +19,18 @@
 		'70': '70–79 ans',
 		'80': '80 ans et plus'
 	};
+	// Compact labels for the x-axis ticks (no "ans" — it overflows on mobile).
+	const AGE_AXIS: Record<string, string> = {
+		U20: '<20',
+		'20': '20–39',
+		'40': '40–49',
+		'50': '50–59',
+		'60': '60–69',
+		'70': '70–79',
+		'80': '80+'
+	};
 
-	type Bar = { key: string; label: string; n: number; isMine: boolean };
+	type Bar = { key: string; label: string; axisLabel: string; n: number; isMine: boolean };
 
 	const myGender = $derived(me.gender);
 	const myAgeKey = $derived(me.category.replace(/^[FMX]/, ''));
@@ -31,6 +41,7 @@
 			return {
 				key: age,
 				label: AGE_LABEL[age] ?? age,
+				axisLabel: AGE_AXIS[age] ?? age,
 				n: stat?.n ?? 0,
 				isMine: age === myAgeKey
 			};
@@ -93,7 +104,7 @@
 					class="ann-label mono"
 					class:ann-mine={bar.isMine}
 					style="left: {pct}%"
-				>{bar.label}</span>
+				>{bar.axisLabel}</span>
 			{/each}
 		</div>
 	</div>

@@ -222,6 +222,20 @@ export function fmtTime(sec: number | null): string {
 	return `${m}:${String(s).padStart(2, '0')}`;
 }
 
+/**
+ * Compact clock for axis ticks: drops the seconds when they are :00
+ * (e.g. 1h30:00 → 1h30, 45:00 → 45min) so labels don't overflow on mobile.
+ */
+export function fmtTimeShort(sec: number | null): string {
+	if (sec == null) return '—';
+	const h = Math.floor(sec / 3600);
+	const m = Math.floor((sec % 3600) / 60);
+	const s = sec % 60;
+	if (s !== 0) return fmtTime(sec);
+	if (h > 0) return `${h}h${String(m).padStart(2, '0')}`;
+	return `${m}min`;
+}
+
 export function fmtPace(secPerKm: number | null): string {
 	if (secPerKm == null || !isFinite(secPerKm) || secPerKm <= 0) return '—';
 	const m = Math.floor(secPerKm / 60);
