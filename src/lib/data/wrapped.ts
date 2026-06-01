@@ -178,9 +178,16 @@ function norm(s: string): string {
 		.replace(/\s+/g, ' ');
 }
 
+/**
+ * Official course length. The race is branded "20 km" but the measured
+ * course is 20.4 km — this is the distance Chronorace uses for the speed
+ * (km/h) shown in the results and on the official diplomas, so every pace
+ * and speed we compute uses the same value to stay consistent with the source.
+ */
+export const COURSE_KM = 20.4;
+
 export function speedKmh(t: number): number {
-	const TOTAL_KM = 20.04;
-	return (TOTAL_KM / t) * 3600;
+	return (COURSE_KM / t) * 3600;
 }
 
 export function fasterThanPct(me: Finisher, total: number): number {
@@ -238,7 +245,7 @@ export function splitProfile(me: Finisher): {
 		return { firstHalfPace: null, secondHalfPace: null, deltaSecPerKm: null, kind: 'unknown' };
 	}
 	const first = paceFor(me.t10, 10);
-	const second = paceFor(me.t - me.t10, 10);
+	const second = paceFor(me.t - me.t10, COURSE_KM - 10);
 	const delta = second - first;
 	let kind: 'negative' | 'positive' | 'even' = 'even';
 	if (Math.abs(delta) < 5) kind = 'even';

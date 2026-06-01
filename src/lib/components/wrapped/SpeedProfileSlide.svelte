@@ -2,6 +2,7 @@
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { COURSE_KM } from '$lib/data/wrapped';
 	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher };
@@ -16,12 +17,15 @@
 
 	type Leg = { label: string; from: number; to: number; speed: number };
 	const legs = $derived.by<Leg[]>(() => {
-		const pts: { km: number; t: number | null }[] = [
-			{ km: 0, t: 0 },
-			{ km: 5.5, t: me.t55 },
-			{ km: 10, t: me.t10 },
-			{ km: 15, t: me.t15 },
-			{ km: 20, t: me.t }
+		// `km` is the real cumulative distance used for the speed calc (the
+		// finish is at COURSE_KM = 20.4); `mark` is the rounded number shown
+		// to the runner (always 20 at the end), per the "20 km" branding.
+		const pts: { km: number; mark: number; t: number | null }[] = [
+			{ km: 0, mark: 0, t: 0 },
+			{ km: 5.5, mark: 5.5, t: me.t55 },
+			{ km: 10, mark: 10, t: me.t10 },
+			{ km: 15, mark: 15, t: me.t15 },
+			{ km: COURSE_KM, mark: 20, t: me.t }
 		];
 		const out: Leg[] = [];
 		for (let i = 1; i < pts.length; i++) {
@@ -31,9 +35,9 @@
 			const dKm = b.km - a.km;
 			const dH = (b.t - a.t) / 3600;
 			out.push({
-				label: `${fmtKm(a.km)}–${fmtKm(b.km)}`,
-				from: a.km,
-				to: b.km,
+				label: `${fmtKm(a.mark)}–${fmtKm(b.mark)}`,
+				from: a.mark,
+				to: b.mark,
 				speed: dKm / dH
 			});
 		}

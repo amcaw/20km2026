@@ -12,6 +12,10 @@ build
 src/lib/assets/data/results_20km_2026.csv
 static/data/wrapped/finishers.json
 
-# Local screenshot tooling — not part of the app
+# Local screenshot / video tooling — not part of the app
 screenshots
 _shots.mjs
+video_raw
+*.mp4
+music.mp3
+recap_videos

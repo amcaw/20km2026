@@ -2,7 +2,7 @@
 	import { scaleLinear } from 'd3-scale';
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher } from '$lib/data/wrapped';
-	import { fmtThousands } from '$lib/data/wrapped';
+	import { fmtThousands, COURSE_KM } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 	import { t } from '$lib/i18n';
 
@@ -17,7 +17,7 @@
 			{ km: 5.5, label: t().kmLabel(5.5), pos: me.pos55 },
 			{ km: 10, label: t().kmLabel(10), pos: me.pos10 },
 			{ km: 15, label: t().kmLabel(15), pos: me.pos15 },
-			{ km: 20.04, label: t().rankProgress.finishLabel, pos: me.pos }
+			{ km: COURSE_KM, label: t().rankProgress.finishLabel, pos: me.pos }
 		];
 		return raw.filter((s): s is Stop => s.pos != null && s.pos > 0);
 	});
@@ -47,7 +47,7 @@
 		return [lo, hi] as [number, number];
 	});
 
-	const x = $derived(scaleLinear().domain([5.5, 20.04]).range([0, innerW]));
+	const x = $derived(scaleLinear().domain([5.5, COURSE_KM]).range([0, innerW]));
 	const y = $derived(scaleLinear().domain(posExtent).range([0, innerH]));
 
 	const points = $derived(stops.map((s) => ({ ...s, px: x(s.km), py: y(s.pos) })));

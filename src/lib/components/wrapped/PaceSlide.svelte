@@ -1,14 +1,14 @@
 <script lang="ts">
 	import SlideShell from './SlideShell.svelte';
 	import type { CategoryStats, Finisher } from '$lib/data/wrapped';
-	import { categoryLabel, fmtPace, paceFor } from '$lib/data/wrapped';
+	import { categoryLabel, fmtPace, paceFor, COURSE_KM } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; catStats: CategoryStats };
 	let { me, catStats }: Props = $props();
-	const myPace = $derived(paceFor(me.t, 20));
-	const medianPace = $derived(paceFor(catStats.medianTime, 20));
+	const myPace = $derived(paceFor(me.t, COURSE_KM));
+	const medianPace = $derived(paceFor(catStats.medianTime, COURSE_KM));
 	const catLabel = $derived(categoryLabel(me.category));
 
 	const counter = new Counter();

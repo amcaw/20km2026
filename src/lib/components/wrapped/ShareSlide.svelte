@@ -8,7 +8,8 @@
 		fmtThousands,
 		fmtTime,
 		genderRank,
-		paceFor
+		paceFor,
+		COURSE_KM
 	} from '$lib/data/wrapped';
 	import { t } from '$lib/i18n';
 
@@ -22,7 +23,7 @@
 	let { me, genderCurve, total, catStats, onRestart }: Props = $props();
 
 	const pct = $derived(fasterThanPct(me, total));
-	const myPace = $derived(paceFor(me.t, 20));
+	const myPace = $derived(paceFor(me.t, COURSE_KM));
 
 	const shareTitle = $derived.by(() => {
 		const tt = fmtTime(me.t);
