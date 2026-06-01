@@ -196,6 +196,9 @@ export const nl: Dict = {
 		paceAvg: 'Gemiddeld tempo',
 		shareCta: 'Laat het weten',
 		restart: 'Iemand anders zoeken',
+		noteBefore: 'Deze pagina toont enkel de openbare resultaten van de 20 km door Brussel, live opgehaald van de officiële site ',
+		noteSource: 'acn-timing.com',
+		noteAfter: ', de enige host van de gegevens van de deelnemers. Er worden geen persoonsgegevens bewaard door de RTBF of door deze pagina.',
 		shareTitleWon: (tt) => `Ik won de 20 km van Brussel in ${tt}!`,
 		shareTitleTop100: (pos, tt, n) =>
 			`Ik finishte ${pos}e in de 20 km van Brussel in ${tt}, op ${n} finishers.`,

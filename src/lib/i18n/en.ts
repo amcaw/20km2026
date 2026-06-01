@@ -196,6 +196,9 @@ export const en: Dict = {
 		paceAvg: 'Average pace',
 		shareCta: 'Spread the word',
 		restart: 'Search for someone else',
+		noteBefore: 'This page only displays the public results of the 20 km of Brussels, fetched live from the official site ',
+		noteSource: 'acn-timing.com',
+		noteAfter: ', the sole host of the participants’ data. No personal data is stored by the RTBF or by this page.',
 		shareTitleWon: (tt) => `I won the 20 km of Brussels in ${tt}!`,
 		shareTitleTop100: (pos, tt, n) =>
 			`I finished ${ordinal(pos)} in the 20 km of Brussels in ${tt}, out of ${n} finishers.`,

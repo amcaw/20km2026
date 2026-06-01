@@ -200,6 +200,9 @@ export const fr: Dict = {
 		paceAvg: 'Allure moyenne',
 		shareCta: 'Faites-le savoir',
 		restart: 'Chercher quelqu’un d’autre',
+		noteBefore: 'Cette page se contente d’afficher les résultats publics des 20 km de Bruxelles, récupérés en direct depuis le site officiel ',
+		noteSource: 'acn-timing.com',
+		noteAfter: ', seul hébergeur des données des participants. Aucune donnée personnelle n’est stockée par la RTBF ni par cette page.',
 		shareTitleWon: (tt) => `J’ai gagné les 20 km de Bruxelles en ${tt} !`,
 		shareTitleTop100: (pos, tt, n) =>
 			`J’ai fini ${pos}e des 20 km de Bruxelles en ${tt}, sur ${n} finishers.`,

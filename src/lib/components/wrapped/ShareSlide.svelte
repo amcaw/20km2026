@@ -116,6 +116,15 @@
 				{t().share.restart}
 			</button>
 		</div>
+
+		<p class="data-note">
+			{t().share.noteBefore}<a
+				class="note-link"
+				href="https://www.acn-timing.com/?lng=EN#/events/2159385002573923/ctx/20260531_20km/generic/199034_1/home/LIVE1"
+				target="_blank"
+				rel="noopener noreferrer"
+			>{t().share.noteSource}</a>{t().share.noteAfter}
+		</p>
 	</section>
 </SlideShell>
 
@@ -226,6 +235,25 @@
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--ink-3);
+	}
+	.data-note {
+		margin: clamp(10px, 1.6dvh, 16px) 0 0;
+		padding-top: clamp(10px, 1.6dvh, 16px);
+		border-top: 1px solid var(--line);
+		font-family: var(--font-ui);
+		font-size: 11px;
+		line-height: 1.5;
+		color: var(--ink-4);
+		letter-spacing: 0.01em;
+	}
+	.note-link {
+		color: var(--ink-3);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		transition: color 120ms ease;
+	}
+	.note-link:hover {
+		color: var(--hot);
 	}
 	.restart {
 		align-self: flex-start;

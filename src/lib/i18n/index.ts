@@ -193,6 +193,9 @@ export type Dict = {
 		paceAvg: string;
 		shareCta: string;
 		restart: string;
+		noteBefore: string; // up to the acn-timing.com link
+		noteSource: string; // link text "acn-timing.com"
+		noteAfter: string; // after the link
 		shareTitleWon: (t: string) => string;
 		shareTitleTop100: (pos: number, t: string, n: string) => string;
 		shareTitleGeneric: (t: string, top: number, n: string) => string;
