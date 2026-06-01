@@ -148,7 +148,7 @@
 	}
 	.leg {
 		display: grid;
-		grid-template-columns: 88px 1fr auto;
+		grid-template-columns: 88px 1fr 86px;
 		align-items: center;
 		gap: 14px;
 	}
@@ -185,6 +185,7 @@
 		font-weight: 700;
 		color: var(--ink);
 		white-space: nowrap;
+		text-align: right;
 	}
 	.leg-fast .leg-speed {
 		color: var(--hot);
