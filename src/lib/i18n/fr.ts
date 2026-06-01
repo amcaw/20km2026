@@ -26,7 +26,7 @@ export const fr: Dict = {
 		hintName:
 			'Vérifiez l’orthographe (prénom puis NOM, comme sur le dossard), ou essayez votre numéro de dossard.',
 		disambig: 'Plusieurs coureurs portent ce nom. Choisissez le vôtre :',
-		credit: 'par Ambroise Carton',
+		credit: 'Développement et récit par Ambroise Carton pour Décrypte',
 		legalPrefix:
 			'Aucune donnée n’est conservée. La saisie reste dans votre navigateur. Résultats officiels : ',
 		legalSource: 'ACN Timing'

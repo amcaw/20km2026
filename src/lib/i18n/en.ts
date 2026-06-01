@@ -25,7 +25,7 @@ export const en: Dict = {
 		hintName:
 			'Check the spelling (first name then LAST NAME, as on your bib), or try your bib number.',
 		disambig: 'Several runners share this name. Pick yours:',
-		credit: 'by Ambroise Carton',
+		credit: 'Development and storytelling by Ambroise Carton for Décrypte',
 		legalPrefix:
 			'No data is stored. Your input stays in your browser. Official results: ',
 		legalSource: 'ACN Timing'

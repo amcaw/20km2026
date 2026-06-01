@@ -25,7 +25,7 @@ export const nl: Dict = {
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
-		credit: 'door Ambroise Carton',
+		credit: 'Ontwikkeling en verhaal door Ambroise Carton voor Décrypte',
 		legalPrefix:
 			'Er worden geen gegevens bewaard. Je invoer blijft in je browser. Officiële resultaten: ',
 		legalSource: 'ACN Timing'

@@ -136,7 +136,6 @@
 		</div>
 	{/if}
 
-	<p class="credit">{t().search.credit}</p>
 	<p class="legal">
 		{t().search.legalPrefix}<a
 			class="source-link"
@@ -145,6 +144,7 @@
 			rel="noopener noreferrer"
 		>{t().search.legalSource}</a>.
 	</p>
+	<p class="credit">{t().search.credit}</p>
 </SlideShell>
 
 <style>
@@ -332,7 +332,7 @@
 	}
 
 	.credit {
-		margin: 0 0 6px;
+		margin: 8px 0 0;
 		font-family: var(--font-ui);
 		font-size: 11px;
 		font-weight: 800;
