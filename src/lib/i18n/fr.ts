@@ -99,7 +99,7 @@ export const fr: Dict = {
 	},
 
 	pace: {
-		eyebrow: 'À l’allure de',
+		eyebrow: 'À l’allure moyenne de',
 		unit: '/km',
 		intro: '20 km tenus à ce rythme.',
 		faster: (cat) => `Plus rapide que la moitié des ${cat}. Joli tempo.`,

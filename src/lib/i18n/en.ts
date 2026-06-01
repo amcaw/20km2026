@@ -97,7 +97,7 @@ export const en: Dict = {
 	},
 
 	pace: {
-		eyebrow: 'At a pace of',
+		eyebrow: 'At an average pace of',
 		unit: '/km',
 		intro: '20 km held at that pace.',
 		faster: (cat) => `Faster than half of the ${cat}. Nice tempo.`,
