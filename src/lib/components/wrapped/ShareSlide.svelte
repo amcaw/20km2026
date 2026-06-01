@@ -107,6 +107,7 @@
 		</div>
 
 		<div class="p-actions">
+			<p class="share-cta">{t().share.shareCta}</p>
 			<ShareRow
 				{shareTitle}
 			/>
@@ -215,6 +216,15 @@
 		flex-direction: column;
 		gap: 10px;
 		margin-top: clamp(4px, 1dvh, 10px);
+	}
+	.share-cta {
+		margin: 0;
+		font-family: var(--font-ui);
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-3);
 	}
 	.restart {
 		align-self: flex-start;

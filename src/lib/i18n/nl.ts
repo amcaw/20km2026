@@ -192,6 +192,7 @@ export const nl: Dict = {
 		bib: 'Borstnummer',
 		rankGeneral: 'Algemeen klassement',
 		paceAvg: 'Gemiddeld tempo',
+		shareCta: 'Laat het weten',
 		restart: 'Iemand anders zoeken',
 		shareTitleWon: (tt) => `Ik won de 20 km van Brussel in ${tt}!`,
 		shareTitleTop100: (pos, tt, n) =>

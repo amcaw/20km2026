@@ -192,6 +192,7 @@ export const en: Dict = {
 		bib: 'Bib',
 		rankGeneral: 'Overall ranking',
 		paceAvg: 'Average pace',
+		shareCta: 'Spread the word',
 		restart: 'Search for someone else',
 		shareTitleWon: (tt) => `I won the 20 km of Brussels in ${tt}!`,
 		shareTitleTop100: (pos, tt, n) =>

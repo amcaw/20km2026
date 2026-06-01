@@ -189,6 +189,7 @@ export type Dict = {
 		bib: string;
 		rankGeneral: string;
 		paceAvg: string;
+		shareCta: string;
 		restart: string;
 		shareTitleWon: (t: string) => string;
 		shareTitleTop100: (pos: number, t: string, n: string) => string;

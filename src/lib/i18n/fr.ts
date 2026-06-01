@@ -196,6 +196,7 @@ export const fr: Dict = {
 		bib: 'Dossard',
 		rankGeneral: 'Classement général',
 		paceAvg: 'Allure moyenne',
+		shareCta: 'Faites-le savoir',
 		restart: 'Chercher quelqu’un d’autre',
 		shareTitleWon: (tt) => `J’ai gagné les 20 km de Bruxelles en ${tt} !`,
 		shareTitleTop100: (pos, tt, n) =>
