@@ -2,7 +2,7 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import { t } from '$lib/i18n';
 
-	const SITE_URL = 'https://amcaw.github.io/20km2026/';
+	const SITE_URL = 'https://www.rtbf.be/article/11733095';
 
 	type Props = {
 		shareUrl?: string;
