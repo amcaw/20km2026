@@ -8,6 +8,7 @@ export const fr: Dict = {
 	navBack: 'Slide précédente',
 	navToSearch: 'Retour à la recherche',
 	navNext: 'Slide suivante',
+	sourceLine: 'Source : 20 km de Bruxelles · ACN Timing · 31/05/2026',
 
 	search: {
 		eyebrow: '20 km de Bruxelles · récap personnel',

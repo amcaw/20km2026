@@ -8,6 +8,7 @@ export const nl: Dict = {
 	navBack: 'Vorige slide',
 	navToSearch: 'Terug naar zoeken',
 	navNext: 'Volgende slide',
+	sourceLine: 'Bron: 20 km door Brussel · ACN Timing · 31/05/2026',
 
 	search: {
 		eyebrow: '20 km van Brussel · jouw recap',

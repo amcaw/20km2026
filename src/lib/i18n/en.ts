@@ -8,6 +8,7 @@ export const en: Dict = {
 	navBack: 'Previous slide',
 	navToSearch: 'Back to search',
 	navNext: 'Next slide',
+	sourceLine: 'Source: 20 km of Brussels · ACN Timing · 31/05/2026',
 
 	search: {
 		eyebrow: '20 km of Brussels · your recap',

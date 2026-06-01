@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { reveal } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = {
 		tone?: 'ink' | 'hot';
+		source?: boolean;
 		children: Snippet;
 	};
-	let { tone = 'ink', children }: Props = $props();
+	let { tone = 'ink', source = true, children }: Props = $props();
 </script>
 
 <section class="slide tone-{tone}" aria-roledescription="slide">
@@ -14,6 +16,14 @@
 	<div class="content" use:reveal>
 		{@render children()}
 	</div>
+	{#if source}
+		<a
+			class="source-line"
+			href="https://www.acn-timing.com/?lng=EN#/events/2159385002573923/ctx/20260531_20km/generic/199034_1/home/LIVE1"
+			target="_blank"
+			rel="noopener noreferrer"
+		>{t().sourceLine}</a>
+	{/if}
 </section>
 
 <style>
@@ -81,4 +91,29 @@
 			linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 22px 22px;
 	}
 
+	.source-line {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: clamp(12px, 2.4dvh, 24px);
+		margin: 0;
+		padding: 0 clamp(24px, 6vw, 80px);
+		text-align: center;
+		font-family: var(--font-ui);
+		font-size: 10px;
+		letter-spacing: 0.04em;
+		color: var(--ink-4);
+		text-decoration: none;
+		transition: color 120ms ease;
+	}
+	.source-line:hover {
+		color: var(--ink-2);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+	.source-line:focus-visible {
+		outline: 2px solid var(--hot);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
 </style>

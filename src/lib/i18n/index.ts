@@ -21,6 +21,7 @@ export type Dict = {
 	navBack: string;
 	navToSearch: string;
 	navNext: string;
+	sourceLine: string;
 
 	// --- search slide ---
 	search: {

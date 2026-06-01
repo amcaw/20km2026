@@ -60,7 +60,7 @@
 	}
 </script>
 
-<SlideShell tone="hot">
+<SlideShell tone="hot" source={false}>
 	<LangPicker />
 	<div class="head">
 		<span class="eyebrow">{t().search.eyebrow}</span>
