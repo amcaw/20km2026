@@ -3,6 +3,7 @@
 	import type { Finisher } from '$lib/data/wrapped';
 	import { fmtTime } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; fastest: number };
 	let { me, fastest }: Props = $props();
@@ -12,13 +13,13 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => counter.run(me.t) }}>
-		<p class="eyebrow">Et vous avez fini en</p>
+		<p class="eyebrow">{t().chrono.eyebrow}</p>
 		<h2 class="big mono">{fmtTime(Math.round(counter.value))}</h2>
 		<p class="sub">
-			20&nbsp;km dans les jambes. <em>Chapeau pour le chrono.</em>
+			{@html t().chrono.sub}
 		</p>
 		<p class="ref mono">
-			Le plus rapide du jour&nbsp;: {fmtTime(fastest)}.
+			{t().chrono.ref(fmtTime(fastest))}
 		</p>
 	</div>
 </SlideShell>
@@ -52,7 +53,7 @@
 		text-wrap: balance;
 		max-width: 24ch;
 	}
-	.sub em {
+	.sub :global(em) {
 		font-style: italic;
 		color: var(--hot);
 	}

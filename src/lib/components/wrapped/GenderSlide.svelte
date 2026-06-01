@@ -3,6 +3,7 @@
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
 	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; stats: WrappedStats };
 	let { me, stats }: Props = $props();
@@ -17,8 +18,8 @@
 			if (g === 'F' || g === 'M') tally[g] += s.n;
 		}
 		return [
-			{ key: 'F', label: 'Femmes', n: tally.F },
-			{ key: 'M', label: 'Hommes', n: tally.M }
+			{ key: 'F', label: t().gender.labelF, n: tally.F },
+			{ key: 'M', label: t().gender.labelM, n: tally.M }
 		];
 	});
 	const total = $derived(bars.reduce((s, b) => s + b.n, 0));
@@ -42,18 +43,20 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal }}>
-	<p class="eyebrow">Au départ</p>
+	<p class="eyebrow">{t().gender.eyebrow}</p>
 	<h2 class="lede">
 		{#if yours}
-			Vous n'étiez pas {me.gender === 'F' ? 'seule' : 'seul'}.
-			<strong class="hot mono">{fmtThousands(Math.round(counter.value) - 1)}</strong>
-			autres {yours.label.toLowerCase()} ont couru avec vous.
+			{@html t().gender.lede(
+				fmtThousands(Math.round(counter.value) - 1),
+				yours.label.toLowerCase(),
+				me.gender
+			)}
 		{:else}
-			Vous étiez parmi les {fmtThousands(total)} finishers.
+			{@html t().gender.ledeFallback(fmtThousands(total))}
 		{/if}
 	</h2>
 
-	<div class="bar" role="img" aria-label="Répartition F / M parmi les finishers">
+	<div class="bar" role="img" aria-label={t().gender.ariaBar}>
 		{#each bars as bar (bar.key)}
 			{@const w = (bar.n / total) * 100}
 			{@const isMine = bar.key === me.gender}
@@ -71,10 +74,9 @@
 	</div>
 
 	<p class="sub">
-		Tous ensemble&nbsp;: <strong class="mono">{fmtThousands(total)}</strong> personnes.
+		{@html t().gender.sub(fmtThousands(total))}
 		{#if medianGapMin != null && medianGapMin > 0}
-			Entre le temps médian des hommes et celui des femmes&nbsp;:
-			<strong class="mono">{medianGapMin}&nbsp;min</strong> d'écart.
+			{@html t().gender.subGap(medianGapMin)}
 		{/if}
 	</p>
 	</div>
@@ -101,8 +103,12 @@
 		text-wrap: balance;
 		max-width: 22ch;
 	}
-	.lede .hot {
+	.lede :global(.hot) {
 		color: var(--hot);
+	}
+	.lede :global(.mono) {
+		font-family: var(--font-mono);
+		font-feature-settings: 'tnum' 1;
 	}
 
 	.bar {
@@ -161,9 +167,13 @@
 		font-size: 13px;
 		color: var(--ink-3);
 	}
-	.sub strong {
+	.sub :global(strong) {
 		color: var(--ink);
 		font-weight: 700;
+	}
+	.sub :global(.mono) {
+		font-family: var(--font-mono);
+		font-feature-settings: 'tnum' 1;
 	}
 	.mono {
 		font-family: var(--font-mono);

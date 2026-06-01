@@ -5,6 +5,7 @@
 		type Finisher,
 		type WrappedStats
 	} from '$lib/data/wrapped';
+	import { t } from '$lib/i18n';
 	import WrappedPips from '$lib/components/wrapped/WrappedPips.svelte';
 	import SearchSlide from '$lib/components/wrapped/SearchSlide.svelte';
 	import CoverSlide from '$lib/components/wrapped/CoverSlide.svelte';
@@ -133,17 +134,14 @@
 </script>
 
 <svelte:head>
-	<title>Récap personnel · 20 km de Bruxelles 2026</title>
-	<meta
-		name="description"
-		content="Découvrez votre récap personnel des 20 km de Bruxelles 2026 : chrono, classement, gestion d'effort et comparaisons."
-	/>
+	<title>{t().pageTitle}</title>
+	<meta name="description" content={t().pageDescription} />
 </svelte:head>
 
 <main class="wrapped" bind:this={scrollEl}>
 	{#if errorMsg}
 		<section class="status">
-			<p class="status-msg">Impossible de charger les résultats : {errorMsg}</p>
+			<p class="status-msg">{t().loadError(errorMsg)}</p>
 		</section>
 	{:else}
 		<div data-slide="0">
@@ -212,7 +210,7 @@
 		<button
 			type="button"
 			class="nav-btn"
-			aria-label={activeSlide === 1 ? 'Retour à la recherche' : 'Slide précédente'}
+			aria-label={activeSlide === 1 ? t().navToSearch : t().navBack}
 			disabled={activeSlide <= 0}
 			onclick={() => tryStep(-1)}
 		>
@@ -230,7 +228,7 @@
 		<button
 			type="button"
 			class="nav-btn"
-			aria-label="Slide suivante"
+			aria-label={t().navNext}
 			disabled={activeSlide >= TOTAL_CONTENT_SLIDES}
 			onclick={() => tryStep(1)}
 		>

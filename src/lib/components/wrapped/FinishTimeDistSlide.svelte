@@ -4,6 +4,7 @@
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
 	import { fmtThousands, fmtTime } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; stats: WrappedStats };
 	let { me, stats }: Props = $props();
@@ -46,12 +47,9 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
-	<p class="eyebrow">Vous dans la distribution</p>
+	<p class="eyebrow">{t().finishDist.eyebrow}</p>
 	<h2 class="lede">
-		Chaque barre, c'est le nombre de coureurs pour une minute de chrono.
-		<strong class="mono">{fmtThousands(womenCount + menCount)}</strong>
-		au total, femmes en clair, hommes en foncé. La ligne blanche, c'est
-		vous&nbsp;: <em>plus à gauche, plus rapide.</em>
+		{@html t().finishDist.lede(fmtThousands(womenCount + menCount))}
 	</h2>
 
 	<div class="chart-wrap">
@@ -145,7 +143,7 @@
 					y={innerH + 30}
 					text-anchor="middle"
 					class="me-label mono"
-				>vous</text>
+				>{t().finishDist.you}</text>
 
 				<line x1={0} y1={innerH} x2={innerW} y2={innerH} stroke="var(--line)" />
 				{#each xTicks as t (t)}
@@ -162,15 +160,15 @@
 		<div class="legend">
 			<span class="legend-item">
 				<span class="swatch swatch-f" style:background={COLOR_F}></span>
-				Femmes
+				{t().finishDist.legendF}
 			</span>
 			<span class="legend-item">
 				<span class="swatch swatch-m" style:background={COLOR_M}></span>
-				Hommes
+				{t().finishDist.legendM}
 			</span>
 			<span class="legend-item">
 				<span class="swatch swatch-you"></span>
-				Vous
+				{t().finishDist.legendYou}
 			</span>
 		</div>
 	</div>
@@ -197,15 +195,15 @@
 		max-width: 38ch;
 		text-wrap: pretty;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 		color: var(--hot);
 	}
-	.lede strong {
+	.lede :global(strong) {
 		font-weight: 700;
 		color: var(--ink);
 	}
-	.lede .mono {
+	.lede :global(.mono) {
 		font-family: var(--font-mono);
 		font-feature-settings: 'tnum' 1;
 	}

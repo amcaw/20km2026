@@ -1,4 +1,5 @@
 import { base } from '$app/paths';
+import { t, type Gender } from '$lib/i18n';
 
 export type Finisher = {
 	pos: number;
@@ -246,24 +247,12 @@ export function splitProfile(me: Finisher): {
 	return { firstHalfPace: first, secondHalfPace: second, deltaSecPerKm: delta, kind };
 }
 
-const AGE_LABEL: Record<string, string> = {
-	U20: 'de moins de 20 ans',
-	'20': 'de 20 à 39 ans',
-	'40': 'de 40 à 49 ans',
-	'50': 'de 50 à 59 ans',
-	'60': 'de 60 à 69 ans',
-	'70': 'de 70 à 79 ans',
-	'80': 'de 80 ans et plus'
-};
-const GENDER_LABEL: Record<string, string> = {
-	F: 'femmes',
-	M: 'hommes',
-	X: 'non-binaires'
-};
-
+/** "hommes de 20 à 39 ans" / "men aged 20 to 39" / "mannen van 20 tot 39 jaar",
+ *  built from the active-language gender + age labels. */
 export function categoryLabel(cat: string): string {
 	const m = cat.match(/^([FMX])(U20|\d{2})$/);
 	if (!m) return cat;
 	const [, g, age] = m;
-	return `${GENDER_LABEL[g] ?? g} ${AGE_LABEL[age] ?? age}`;
+	const d = t();
+	return `${d.genderLabel[g as Gender] ?? g} ${d.ageLabel[age] ?? age}`;
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
+	import { t } from '$lib/i18n';
 
 	const SITE_URL = 'https://amcaw.github.io/20km2026/';
 
@@ -8,10 +9,8 @@
 		shareTitle?: string;
 	};
 
-	let {
-		shareUrl,
-		shareTitle = 'Mon récap personnel des 20 km de Bruxelles 2026'
-	}: Props = $props();
+	let { shareUrl, shareTitle }: Props = $props();
+	const title = $derived(shareTitle ?? t().share.shareDefault);
 
 	function resolvedUrl(): string {
 		return shareUrl ?? SITE_URL;
@@ -26,24 +25,24 @@
 
 	function shareX() {
 		const u = encodeURIComponent(resolvedUrl());
-		const t = encodeURIComponent(shareTitle);
-		open(`https://twitter.com/intent/tweet?url=${u}&text=${t}`);
+		const txt = encodeURIComponent(title);
+		open(`https://twitter.com/intent/tweet?url=${u}&text=${txt}`);
 	}
 	function shareFacebook() {
 		const u = encodeURIComponent(resolvedUrl());
 		open(`https://www.facebook.com/sharer/sharer.php?u=${u}`);
 	}
 	function shareWhatsApp() {
-		const t = encodeURIComponent(`${shareTitle} ${resolvedUrl()}`);
-		open(`https://wa.me/?text=${t}`);
+		const txt = encodeURIComponent(`${title} ${resolvedUrl()}`);
+		open(`https://wa.me/?text=${txt}`);
 	}
 	function shareBlueSky() {
-		const t = encodeURIComponent(`${shareTitle} ${resolvedUrl()}`);
-		open(`https://bsky.app/intent/compose?text=${t}`);
+		const txt = encodeURIComponent(`${title} ${resolvedUrl()}`);
+		open(`https://bsky.app/intent/compose?text=${txt}`);
 	}
 	function shareMail() {
-		const subject = encodeURIComponent(shareTitle);
-		const body = encodeURIComponent(`${shareTitle}\n\n${resolvedUrl()}`);
+		const subject = encodeURIComponent(title);
+		const body = encodeURIComponent(`${title}\n\n${resolvedUrl()}`);
 		window.location.href = `mailto:?subject=${subject}&body=${body}`;
 	}
 	async function copyLink() {
@@ -84,14 +83,14 @@
 	];
 </script>
 
-<div class="share-row" role="group" aria-label="Partager">
+<div class="share-row" role="group" aria-label={t().share.shareGroup}>
 	{#each SHARE_ITEMS as item (item.key)}
 		<button
 			type="button"
 			class="share-chip"
 			onclick={item.onclick}
-			aria-label="Partager sur {item.label}"
-			title="Partager sur {item.label}"
+			aria-label={t().share.shareOn(item.label)}
+			title={t().share.shareOn(item.label)}
 		>
 			{#if item.key === 'x'}
 				<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
@@ -126,8 +125,8 @@
 		type="button"
 		class="share-chip share-chip-copy"
 		onclick={copyLink}
-		aria-label={copied ? 'Lien copié' : 'Copier le lien'}
-		title={copied ? 'Lien copié' : 'Copier le lien'}
+		aria-label={copied ? t().share.copied : t().share.copy}
+		title={copied ? t().share.copied : t().share.copy}
 	>
 		{#if copied}
 			<Icon name="check" size={14} strokeWidth={2} />

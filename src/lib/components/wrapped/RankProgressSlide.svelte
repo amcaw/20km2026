@@ -4,6 +4,7 @@
 	import type { Finisher } from '$lib/data/wrapped';
 	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; total: number };
 	let { me, total }: Props = $props();
@@ -13,10 +14,10 @@
 	type Stop = { km: number; label: string; pos: number };
 	const stops = $derived.by<Stop[]>(() => {
 		const raw: { km: number; label: string; pos: number | null }[] = [
-			{ km: 5.5, label: '5,5 km', pos: me.pos55 },
-			{ km: 10, label: '10 km', pos: me.pos10 },
-			{ km: 15, label: '15 km', pos: me.pos15 },
-			{ km: 20.04, label: 'Arrivée', pos: me.pos }
+			{ km: 5.5, label: t().kmLabel(5.5), pos: me.pos55 },
+			{ km: 10, label: t().kmLabel(10), pos: me.pos10 },
+			{ km: 15, label: t().kmLabel(15), pos: me.pos15 },
+			{ km: 20.04, label: t().rankProgress.finishLabel, pos: me.pos }
 		];
 		return raw.filter((s): s is Stop => s.pos != null && s.pos > 0);
 	});
@@ -80,38 +81,28 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => draw.run(1) }}>
-		<p class="eyebrow">Votre course dans le peloton</p>
+		<p class="eyebrow">{t().rankProgress.eyebrow}</p>
 		{#if hasTrajectory}
 			<h2 class="lede">
 				{#if lastLegGain > 20}
-					Sur la fin, vous avez doublé
-					<strong class="mono">{fmtThousands(lastLegGain)}</strong>
-					coureurs. <em>Vous avez fini en force.</em>
+					{@html t().rankProgress.gainedLate(fmtThousands(lastLegGain))}
 				{:else if netGain > 20}
-					Du départ à l'arrivée, vous avez remonté
-					<strong class="mono">{fmtThousands(netGain)}</strong>
-					places. <em>Belle gestion.</em>
+					{@html t().rankProgress.gainedNet(fmtThousands(netGain))}
 				{:else if netGain < -20}
-					Vous avez tenu un rythme régulier et laissé filer
-					<strong class="mono">{fmtThousands(-netGain)}</strong>
-					places sur la fin. <em>Le 20 km use, c'est normal.</em>
+					{@html t().rankProgress.lostLate(fmtThousands(-netGain))}
 				{:else}
-					Du début à la fin, vous avez gardé votre place dans le peloton.
-					<em>Du métronome.</em>
+					{@html t().rankProgress.held}
 				{/if}
 			</h2>
 		{:else}
-			<h2 class="lede">
-				Pas assez de temps intermédiaires cette année pour retracer votre
-				progression dans le peloton.
-			</h2>
+			<h2 class="lede">{t().rankProgress.fallback}</h2>
 		{/if}
 
 		{#if hasTrajectory}
 			<div class="chart-wrap">
 				<svg viewBox="0 0 {VB_W} {VB_H}" class="chart" aria-hidden="true">
 					<g transform="translate({PAD.left},{PAD.top})">
-						<text x={-70} y={12} class="axis-hint">↑ mieux</text>
+						<text x={-70} y={12} class="axis-hint">↑ {t().rankProgress.better}</text>
 						<text x={-70} y={innerH} class="axis-hint">↓</text>
 
 						<path
@@ -178,16 +169,16 @@
 		max-width: 38ch;
 		text-wrap: pretty;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 		color: var(--hot);
 		font-weight: 700;
 	}
-	.lede strong {
+	.lede :global(strong) {
 		font-weight: 700;
 		color: var(--ink);
 	}
-	.lede .mono {
+	.lede :global(.mono) {
 		font-family: var(--font-mono);
 		font-feature-settings: 'tnum' 1;
 		color: var(--hot);

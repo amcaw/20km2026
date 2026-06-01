@@ -3,6 +3,7 @@
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
 	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; stats: WrappedStats };
 	let { me, stats }: Props = $props();
@@ -38,8 +39,6 @@
 	const maxN = $derived(Math.max(...bars.map((b) => b.n), 1));
 	const yours = $derived(bars.find((b) => b.isMine) ?? null);
 
-	const genderNoun = $derived(myGender === 'F' ? 'coureuses' : 'coureurs');
-
 	const yourCount = $derived(yours?.n ?? 0);
 
 	const growth = new Counter();
@@ -51,15 +50,16 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal }}>
-	<p class="eyebrow">Dans votre génération</p>
+	<p class="eyebrow">{t().ageBand.eyebrow}</p>
 	<h2 class="lede">
 		{#if yours}
-			<strong class="mono">{fmtThousands(Math.round(counter.value))}</strong>
-			{me.gender === 'F' ? 'coureuses' : 'coureurs'} de votre tranche d'âge
-			(<em class="accent">{yours.label}</em>) étaient sur la ligne de
-			départ. <em>Vous étiez bien {me.gender === 'F' ? 'entourée' : 'entouré'}.</em>
+			{@html t().ageBand.lede(
+				fmtThousands(Math.round(counter.value)),
+				t().ageLabel[yours.key] ?? yours.label,
+				me.gender
+			)}
 		{:else}
-			Pas de pairs identifiés dans votre classe d'âge cette année.
+			{t().ageBand.ledeFallback}
 		{/if}
 	</h2>
 
@@ -100,10 +100,10 @@
 
 	<p class="legend mono">
 		<span class="legend-item">
-			<span class="swatch swatch-bar"></span> Toutes les classes d'âge
+			<span class="swatch swatch-bar"></span> {t().ageBand.legendAll}
 		</span>
 		<span class="legend-item">
-			<span class="swatch swatch-mine"></span> Votre classe ({yours?.label})
+			<span class="swatch swatch-mine"></span> {t().ageBand.legendMine(yours?.label ?? '')}
 		</span>
 	</p>
 	</div>
@@ -130,17 +130,17 @@
 		text-wrap: balance;
 		max-width: 22ch;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 	}
-	.lede em.accent {
+	.lede :global(em.accent) {
 		color: var(--hot);
 		font-style: normal;
 	}
-	.lede strong {
+	.lede :global(strong) {
 		font-weight: 800;
 	}
-	.lede .mono {
+	.lede :global(.mono) {
 		font-family: var(--font-mono);
 		font-feature-settings: 'tnum' 1;
 		color: var(--hot);

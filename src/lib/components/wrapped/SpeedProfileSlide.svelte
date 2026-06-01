@@ -2,6 +2,7 @@
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher };
 	let { me }: Props = $props();
@@ -9,7 +10,8 @@
 	const growth = new Counter();
 
 	function fmtKm(km: number): string {
-		return String(km).replace('.', ',').replace(/,0$/, '');
+		const dec = t().speed.decimal;
+		return String(km).replace('.', dec).replace(new RegExp(`\\${dec}0$`), '');
 	}
 
 	type Leg = { label: string; from: number; to: number; speed: number };
@@ -58,33 +60,28 @@
 	}
 
 	function fmtSpeed(kmh: number): string {
-		return kmh.toFixed(1).replace('.', ',').replace(/,0$/, '');
+		const dec = t().speed.decimal;
+		return kmh.toFixed(1).replace('.', dec).replace(new RegExp(`\\${dec}0$`), '');
 	}
 
 	const slowestPhrase = $derived.by(() => {
 		if (!slowest) return '';
-		if (slowest.from === 0) return `sur les ${fmtKm(slowest.to)} premiers km`;
+		if (slowest.from === 0) return t().speed.phraseFirst(fmtKm(slowest.to));
 		if (slowestIdx === legs.length - 1)
-			return `dans les ${fmtKm(slowest.to - slowest.from)} derniers km`;
-		return `entre ${fmtKm(slowest.from)} et ${fmtKm(slowest.to)} km`;
+			return t().speed.phraseLast(fmtKm(slowest.to - slowest.from));
+		return t().speed.phraseBetween(fmtKm(slowest.from), fmtKm(slowest.to));
 	});
 </script>
 
 <SlideShell tone="ink">
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
-		<p class="eyebrow">Votre vitesse, kilomètre après kilomètre</p>
+		<p class="eyebrow">{t().speed.eyebrow}</p>
 		{#if hasLegs && slowest}
 			<h2 class="lede">
-				Votre passage le plus lent&nbsp;:
-				<em class="hot">{slowestPhrase}</em>
-				({fmtSpeed(slowest.speed)}&nbsp;km/h).
-				<em>Tout le monde a son moment difficile. Vous l'avez surmonté.</em>
+				{@html t().speed.lede(slowestPhrase, fmtSpeed(slowest.speed))}
 			</h2>
 		{:else}
-			<h2 class="lede">
-				Pas assez de temps intermédiaires cette année pour détailler votre
-				vitesse par tronçon.
-			</h2>
+			<h2 class="lede">{t().speed.ledeFallback}</h2>
 		{/if}
 
 		{#if hasLegs}
@@ -100,14 +97,14 @@
 								style="width: {barFrac(leg.speed) * 100 * growth.value}%"
 							></div>
 						</div>
-						<span class="leg-speed mono">{fmtSpeed(leg.speed)}<span class="unit">km/h</span></span>
+						<span class="leg-speed mono">{fmtSpeed(leg.speed)}<span class="unit">{t().speed.unit}</span></span>
 					</div>
 				{/each}
 			</div>
 
 			<p class="legend mono">
-				<span class="legend-item"><span class="dot dot-fast"></span> Votre tronçon le plus rapide</span>
-				<span class="legend-item"><span class="dot dot-slow"></span> Le plus lent</span>
+				<span class="legend-item"><span class="dot dot-fast"></span> {t().speed.legendFast}</span>
+				<span class="legend-item"><span class="dot dot-slow"></span> {t().speed.legendSlow}</span>
 			</p>
 		{/if}
 	</div>
@@ -133,12 +130,12 @@
 		max-width: 38ch;
 		text-wrap: pretty;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 		color: var(--hot);
 		font-weight: 700;
 	}
-	.lede em.hot {
+	.lede :global(em.hot) {
 		color: var(--hot);
 	}
 

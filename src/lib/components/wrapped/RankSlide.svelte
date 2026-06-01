@@ -3,6 +3,7 @@
 	import type { Finisher } from '$lib/data/wrapped';
 	import { fasterThanPct, fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; total: number };
 	let { me, total }: Props = $props();
@@ -14,23 +15,20 @@
 
 <SlideShell tone="ink">
 	<div use:reveal={{ onReveal: () => counter.run(me.pos) }}>
-		<p class="eyebrow">Au classement, ça donne</p>
+		<p class="eyebrow">{t().rank.eyebrow}</p>
 		<h2 class="big mono">#{fmtThousands(Math.round(counter.value))}</h2>
 		<p class="sub">
-			sur <strong class="hot mono">{fmtThousands(total)}</strong> finishers.
+			{@html t().rank.sub(fmtThousands(total))}
 			{#if me.pos === 1}
-				<em>Personne devant vous. Vous avez gagné.</em>
+				<em>{t().rank.won}</em>
 			{:else if me.pos <= 3}
-				<em>Sur le podium. Chapeau.</em>
+				<em>{t().rank.podium}</em>
 			{:else if me.pos <= 100}
-				<em>Dans le top 100. Costaud.</em>
+				<em>{t().rank.top100}</em>
 			{:else if fromLast <= 50}
-				<em>Vous avez tenu jusqu'au bout. C'est tout ce qui compte.</em>
+				<em>{t().rank.nearLast}</em>
 			{:else}
-				<em
-					>Vous avez fini devant <strong class="mono">{pct}%</strong> des
-					participants. Solide.</em
-				>
+				<em>{@html t().rank.generic(pct)}</em>
 			{/if}
 		</p>
 	</div>
@@ -63,11 +61,11 @@
 		line-height: 1.3;
 		color: var(--ink-2);
 	}
-	.sub strong {
+	.sub :global(strong) {
 		font-weight: 700;
 		color: var(--ink);
 	}
-	.sub .hot {
+	.sub :global(.hot) {
 		color: var(--hot);
 	}
 	.sub em {
@@ -77,7 +75,7 @@
 		color: var(--hot);
 		font-size: 0.78em;
 	}
-	.sub em strong {
+	.sub em :global(strong) {
 		color: var(--hot);
 	}
 	.mono {

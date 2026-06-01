@@ -3,6 +3,7 @@
 	import type { CategoryStats, Finisher } from '$lib/data/wrapped';
 	import { categoryLabel, fmtPace, paceFor } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; catStats: CategoryStats };
 	let { me, catStats }: Props = $props();
@@ -16,24 +17,16 @@
 
 <SlideShell tone="ink">
 	<div use:reveal={{ onReveal: () => counter.run(myPace) }}>
-	<p class="eyebrow">À l'allure de</p>
-	<h2 class="big mono">{display}<span class="unit">/km</span></h2>
+	<p class="eyebrow">{t().pace.eyebrow}</p>
+	<h2 class="big mono">{display}<span class="unit">{t().pace.unit}</span></h2>
 	<p class="sub">
-		20&nbsp;km tenus à ce rythme.
+		{t().pace.intro}
 		{#if myPace < medianPace}
-			<em
-				>Plus rapide que la moitié des {catLabel}. Joli tempo.</em
-			>
+			<em>{t().pace.faster(catLabel)}</em>
 		{:else if myPace > medianPace}
-			<em
-				>La moitié des {catLabel} a fini plus vite, mais vous êtes
-				{me.gender === 'F' ? 'allée' : 'allé'} au bout, et c'est
-				l'essentiel.</em
-			>
+			<em>{t().pace.slower(catLabel, me.gender)}</em>
 		{:else}
-			<em
-				>Pile l'allure médiane des {catLabel}. Pile au centre.</em
-			>
+			<em>{t().pace.even(catLabel)}</em>
 		{/if}
 	</p>
 	</div>

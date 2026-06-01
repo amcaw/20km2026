@@ -3,22 +3,23 @@
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
 	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; stats: WrappedStats };
 	let { me, stats }: Props = $props();
 	const counter = new Counter();
+	const n = $derived(`<strong class="mono hot">${fmtThousands(Math.round(counter.value))}</strong>`);
 </script>
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => counter.run(stats.global.total) }}>
-		<p class="eyebrow">20 km de Bruxelles · édition 2026</p>
+		<p class="eyebrow">{t().cover.eyebrow}</p>
 		<h1 class="lede">
-			<strong class="mono hot">{fmtThousands(Math.round(counter.value))}</strong>
-			personnes ont franchi la ligne d'arrivée.<br />
-			Et vous en faisiez partie.
+			{@html t().cover.lede(n)}<br />
+			{t().cover.ledeAfter}
 		</h1>
 		<p class="signature">
-			<em>Bravo. Voici votre course, en chiffres.</em>
+			<em>{t().cover.signature}</em>
 		</p>
 	</div>
 </SlideShell>
@@ -44,7 +45,7 @@
 		text-wrap: balance;
 		max-width: 22ch;
 	}
-	.lede .mono {
+	.lede :global(.mono) {
 		font-family: var(--font-mono);
 		font-feature-settings: 'tnum' 1;
 		color: var(--hot);
@@ -60,7 +61,7 @@
 		font-style: italic;
 		color: var(--ink-3);
 	}
-	.lede .hot {
+	.lede :global(.hot) {
 		color: var(--hot);
 	}
 </style>

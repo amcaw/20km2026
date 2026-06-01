@@ -10,6 +10,7 @@
 		genderRank,
 		paceFor
 	} from '$lib/data/wrapped';
+	import { t } from '$lib/i18n';
 
 	type Props = {
 		me: Finisher;
@@ -24,19 +25,21 @@
 	const myPace = $derived(paceFor(me.t, 20));
 
 	const shareTitle = $derived.by(() => {
-		const t = fmtTime(me.t);
+		const tt = fmtTime(me.t);
 		const n = fmtThousands(total);
-		if (me.pos === 1) return `J'ai gagné les 20 km de Bruxelles en ${t} !`;
-		if (me.pos <= 100) return `J'ai fini ${me.pos}e des 20 km de Bruxelles en ${t}, sur ${n} finishers.`;
-		const top = Math.max(1, 100 - pct);
-		return `J'ai couru les 20 km de Bruxelles en ${t}, dans le top ${top}% sur ${n} finishers.`;
+		if (me.pos === 1) return t().share.shareTitleWon(tt);
+		if (me.pos <= 100) return t().share.shareTitleTop100(me.pos, tt, n);
+		return t().share.shareTitleGeneric(tt, Math.max(1, 100 - pct), n);
 	});
 
 	const gRank = $derived(genderRank(genderCurve, me));
 
-	const genderNoun = $derived(
-		me.gender === 'F' ? 'Femmes' : me.gender === 'M' ? 'Hommes' : 'Catégorie X'
-	);
+	// Capitalised gender noun for the stat tile label (the dict noun is
+	// lower-case; capitalise the first letter for a tile heading).
+	const genderNoun = $derived.by(() => {
+		const n = me.gender === 'F' ? t().gender.labelF : t().gender.labelM;
+		return n.charAt(0).toUpperCase() + n.slice(1);
+	});
 
 	function prettyName(raw: string): string {
 		if (!raw) return '—';
@@ -61,10 +64,10 @@
 
 <SlideShell tone="hot">
 	<section class="personal">
-		<div class="p-label">C'est votre course. Partagez-la fièrement.</div>
+		<div class="p-label">{t().share.label}</div>
 		<h1 class="p-name">{displayName}</h1>
 		<div class="p-meta">
-			Dossard #{me.bib} · {me.category}
+			{t().share.bib} #{me.bib} · {me.category}
 			{#if me.country}· {me.country}{/if}
 			{#if me.team}· {me.team}{/if}
 		</div>
@@ -76,7 +79,7 @@
 				<div class="p-num mono">
 					{fmtThousands(me.pos)}<span class="p-sub">/ {fmtThousands(total)}</span>
 				</div>
-				<div class="p-lbl">Classement général</div>
+				<div class="p-lbl">{t().share.rankGeneral}</div>
 			</div>
 			{#if me.catRank != null}
 				<div class="p-stat">
@@ -96,7 +99,7 @@
 				<div class="p-num mono">
 					{fmtPace(myPace)}<span class="p-sub">/km</span>
 				</div>
-				<div class="p-lbl">Allure moyenne</div>
+				<div class="p-lbl">{t().share.paceAvg}</div>
 			</div>
 		</div>
 
@@ -105,7 +108,7 @@
 				{shareTitle}
 			/>
 			<button type="button" class="restart" onclick={onRestart}>
-				Chercher quelqu'un d'autre
+				{t().share.restart}
 			</button>
 		</div>
 	</section>

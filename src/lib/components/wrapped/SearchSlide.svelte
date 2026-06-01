@@ -2,6 +2,8 @@
 	import SlideShell from './SlideShell.svelte';
 	import type { Finisher } from '$lib/data/wrapped';
 	import { search, fmtTime } from '$lib/data/wrapped';
+	import { t } from '$lib/i18n';
+	import LangPicker from './LangPicker.svelte';
 
 	type Props = {
 		loading: boolean;
@@ -55,16 +57,15 @@
 </script>
 
 <SlideShell tone="hot">
+	<LangPicker />
 	<div class="head">
-		<span class="eyebrow">20 km de Bruxelles · récap personnel</span>
-		<h1 class="lede">
-			Tapez <em>votre nom</em> ou votre <em>numéro de dossard</em>.
-		</h1>
+		<span class="eyebrow">{t().search.eyebrow}</span>
+		<h1 class="lede">{@html t().search.lede}</h1>
 	</div>
 
 	<form class="form" onsubmit={submit}>
 		<label class="field">
-			<span class="field-label">Nom du coureur ou numéro de dossard</span>
+			<span class="field-label">{t().search.fieldLabel}</span>
 			<div class="field-wrap">
 				<input
 					bind:this={inputEl}
@@ -72,7 +73,7 @@
 					type="text"
 					inputmode="text"
 					bind:value={query}
-					placeholder="Prénom NOM ou dossard"
+					placeholder={t().search.placeholder}
 					autocomplete="off"
 					autocapitalize="words"
 					spellcheck="false"
@@ -82,7 +83,7 @@
 					<button
 						type="button"
 						class="clear-btn"
-						aria-label="Effacer la recherche"
+						aria-label={t().search.clear}
 						onclick={clear}
 					>
 						<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
@@ -99,33 +100,26 @@
 			</div>
 		</label>
 		<button type="submit" class="cta" disabled={loading || searching || !canSubmit}>
-			{loading ? 'Chargement…' : searching ? 'Recherche…' : 'Voir mon récap'}
+			{loading ? t().search.ctaLoading : searching ? t().search.ctaSearching : t().search.cta}
 		</button>
 	</form>
 
 	{#if netError}
-		<p class="msg err">
-			Impossible de joindre le service de résultats pour l'instant.
-			Réessayez dans un moment.
-		</p>
+		<p class="msg err">{t().search.netError}</p>
 	{:else if attempted && !searching && matches.length === 0}
 		<p class="msg err">
-			Aucun résultat exact pour
-			<span class="quote">«&nbsp;{query.trim()}&nbsp;»</span>.
+			{t().search.noMatch(query.trim())}
 			{#if isBib}
-				Vérifiez votre numéro de dossard.
+				{t().search.hintBib}
 			{:else}
-				Vérifiez l'orthographe (prénom puis NOM, comme sur le dossard),
-				ou essayez votre numéro de dossard.
+				{t().search.hintName}
 			{/if}
 		</p>
 	{/if}
 
 	{#if disambiguating}
 		<div class="disambig">
-			<p class="msg">
-				Plusieurs coureurs portent ce nom. Choisissez le vôtre :
-			</p>
+			<p class="msg">{t().search.disambig}</p>
 			<ul class="picker">
 				{#each matches as f (f.bib)}
 					<button type="button" class="picker-btn" onclick={() => pick(f)}>
@@ -139,14 +133,12 @@
 	{/if}
 
 	<p class="legal">
-		Aucune donnée n'est conservée. La saisie reste dans votre navigateur.
-		Résultats officiels&nbsp;:
-		<a
+		{t().search.legalPrefix}<a
 			class="source-link"
 			href="https://www.acn-timing.com/?lng=EN#/events/2159385002573923/ctx/20260531_20km/generic/199034_1/home/LIVE1"
 			target="_blank"
 			rel="noopener noreferrer"
-		>ACN&nbsp;Timing</a>.
+		>{t().search.legalSource}</a>.
 	</p>
 </SlideShell>
 
@@ -175,7 +167,7 @@
 		text-wrap: balance;
 		max-width: 18ch;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 		color: var(--hot);
 	}
@@ -287,10 +279,6 @@
 	}
 	.msg.err {
 		color: var(--ink);
-	}
-	.quote {
-		color: var(--hot);
-		font-weight: 700;
 	}
 
 	.disambig {

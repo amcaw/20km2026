@@ -5,6 +5,7 @@
 	import type { Finisher, WrappedStats } from '$lib/data/wrapped';
 	import { fmtTime, splitProfile } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; stats: WrappedStats };
 	let { me, stats }: Props = $props();
@@ -71,28 +72,17 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => cloudFade.run(1) }}>
-	<p class="eyebrow">Vos deux moitiés de course</p>
+	<p class="eyebrow">{t().split.eyebrow}</p>
 	{#if split.kind === 'unknown'}
-		<p class="msg">
-			Pas de temps intermédiaire au 10&nbsp;km cette année. Pas d'analyse
-			possible.
-		</p>
+		<p class="msg">{t().split.unknown}</p>
 	{:else}
 		<h2 class="lede">
 			{#if split.kind === 'negative'}
-				<em>Negative split</em>&nbsp;:
-				<strong class="mono">{Math.abs(Math.round(split.deltaSecPerKm ?? 0))}&nbsp;s/km</strong>
-				plus vite sur les 10 derniers&nbsp;km.
-				<em
-					>Énorme. Vous êtes {me.gender === 'F' ? 'montée' : 'monté'} en puissance.</em
-				>
+				{@html t().split.negative(Math.abs(Math.round(split.deltaSecPerKm ?? 0)), me.gender)}
 			{:else if split.kind === 'positive'}
-				<strong class="mono">{Math.round(split.deltaSecPerKm ?? 0)}&nbsp;s/km</strong>
-				de plus sur les 10 derniers&nbsp;km.
-				<em>Normal sur 20&nbsp;km. L'important, c'est que vous l'ayez bouclé.</em>
+				{@html t().split.positive(Math.round(split.deltaSecPerKm ?? 0))}
 			{:else}
-				<em>Aucune dérive</em> entre les deux moitiés.
-				<em>Du métronome. Bravo.</em>
+				{@html t().split.even}
 			{/if}
 		</h2>
 
@@ -162,13 +152,13 @@
 						x={x(domain[0]) + 18}
 						y={y(domain[1]) + 28}
 						class="zone-label slower"
-					>↑ 2<tspan baseline-shift="super" font-size="60%">e</tspan> moitié plus lente</text>
+					>↑ {t().split.zoneSlower}</text>
 					<text
 						x={x(domain[1]) - 18}
 						y={y(domain[0]) - 18}
 						text-anchor="end"
 						class="zone-label faster"
-					>2<tspan baseline-shift="super" font-size="60%">e</tspan> moitié plus rapide ↓</text>
+					>{t().split.zoneFaster} ↓</text>
 
 					{#if myPoint}
 						<circle
@@ -195,7 +185,7 @@
 							x={x(myPoint.t10) + 16}
 							y={y(myPoint.t2nd) - 14}
 							class="me-label mono"
-						>vous</text>
+						>{t().split.you}</text>
 					{/if}
 
 					<text
@@ -203,12 +193,12 @@
 						y={innerH + 76}
 						text-anchor="middle"
 						class="axis-title"
-					>Temps sur le 1<tspan baseline-shift="super" font-size="60%">er</tspan> 10&nbsp;km</text>
+					>{t().split.axisFirst}</text>
 					<text
 						transform="translate(-110,{innerH / 2}) rotate(-90)"
 						text-anchor="middle"
 						class="axis-title"
-					>Temps sur le 2<tspan baseline-shift="super" font-size="60%">e</tspan> 10&nbsp;km</text>
+					>{t().split.axisSecond}</text>
 				</g>
 			</svg>
 		</div>
@@ -216,11 +206,11 @@
 		{#if me.t10 !== null && me.t10 > 0}
 			<div class="my-splits">
 				<span class="split-half">
-					<span class="split-key">1<sup>er</sup> 10&nbsp;km</span>
+					<span class="split-key">{t().split.leg1}</span>
 					<span class="split-time mono">{fmtTime(me.t10)}</span>
 				</span>
 				<span class="split-half split-half-end">
-					<span class="split-key">2<sup>e</sup> 10&nbsp;km</span>
+					<span class="split-key">{t().split.leg2}</span>
 					<span class="split-time mono">{fmtTime(me.t - me.t10)}</span>
 				</span>
 			</div>
@@ -249,16 +239,16 @@
 		max-width: 38ch;
 		text-wrap: pretty;
 	}
-	.lede em {
+	.lede :global(em) {
 		font-style: italic;
 		color: var(--hot);
 		font-weight: 700;
 	}
-	.lede strong {
+	.lede :global(strong) {
 		font-weight: 700;
 		color: var(--ink);
 	}
-	.lede .mono {
+	.lede :global(.mono) {
 		font-family: var(--font-mono);
 		font-feature-settings: 'tnum' 1;
 		color: var(--hot);

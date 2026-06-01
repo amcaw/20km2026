@@ -2,7 +2,9 @@
 	import SlideShell from './SlideShell.svelte';
 	import type { CategoryStats, Finisher } from '$lib/data/wrapped';
 	import { categoryLabel, fmtTime } from '$lib/data/wrapped';
+	import { fmtThousands } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
+	import { t } from '$lib/i18n';
 
 	type Props = { me: Finisher; catStats: CategoryStats };
 	let { me, catStats }: Props = $props();
@@ -51,7 +53,7 @@
 
 <SlideShell tone="hot">
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
-	<p class="eyebrow">Et dans votre catégorie</p>
+	<p class="eyebrow">{t().catDist.eyebrow}</p>
 	<p class="cat-label">{categoryLabel(me.category)} ({me.category})</p>
 
 	{#if me.catRank != null}
@@ -88,7 +90,7 @@
 				y={6}
 				text-anchor="middle"
 				class="median-label"
-				dominant-baseline="hanging">médiane</text>
+				dominant-baseline="hanging">{t().catDist.medianLabel}</text>
 
 			<line
 				x1={xOf(me.t)}
@@ -112,27 +114,25 @@
 					{fmtTime(t)}
 				</span>
 			{/each}
-			<span class="you-pill mono" style="left: {(xOf(me.t) / 1000) * 100}%">vous</span>
+			<span class="you-pill mono" style="left: {(xOf(me.t) / 1000) * 100}%">{t().catDist.you}</span>
 		</div>
 	</div>
 
 	<p class="legend mono">
 		<span class="legend-item">
-			<span class="swatch swatch-bar"></span> Coureurs de votre catégorie
+			<span class="swatch swatch-bar"></span> {t().catDist.legendCat}
 		</span>
 		<span class="legend-item">
-			<span class="swatch swatch-median"></span> Médiane ({fmtTime(catStats.medianTime)})
+			<span class="swatch swatch-median"></span> {t().catDist.legendMedian(fmtTime(catStats.medianTime))}
 		</span>
 		<span class="legend-item">
-			<span class="swatch swatch-you"></span> Vous ({fmtTime(me.t)})
+			<span class="swatch swatch-you"></span> {t().catDist.legendYou(fmtTime(me.t))}
 		</span>
 	</p>
 
 	{#if myBin && myBin.count > 1}
 		<p class="callout">
-			<strong class="mono">{myBin.count - 1}</strong>
-			autres ont fini dans la même minute que vous. Vous étiez en bonne
-			compagnie.
+			{@html t().catDist.callout(fmtThousands(myBin.count - 1))}
 		</p>
 	{/if}
 	</div>
@@ -272,7 +272,7 @@
 		color: var(--ink-2);
 		max-width: 48ch;
 	}
-	.callout strong {
+	.callout :global(strong) {
 		font-weight: 700;
 		color: var(--ink);
 	}
