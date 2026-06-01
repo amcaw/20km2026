@@ -136,6 +136,7 @@
 		</div>
 	{/if}
 
+	<p class="credit">{t().search.credit}</p>
 	<p class="legal">
 		{t().search.legalPrefix}<a
 			class="source-link"
@@ -330,6 +331,15 @@
 		font-feature-settings: 'tnum' 1;
 	}
 
+	.credit {
+		margin: 0 0 6px;
+		font-family: var(--font-ui);
+		font-size: 11px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--ink-2);
+	}
 	.legal {
 		margin: 0;
 		font-family: var(--font-ui);

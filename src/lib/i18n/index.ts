@@ -38,6 +38,7 @@ export type Dict = {
 		hintBib: string;
 		hintName: string;
 		disambig: string;
+		credit: string; // "par Ambroise Carton" byline shown above the legal line
 		legalPrefix: string; // "Aucune donnée…" up to the source link
 		legalSource: string; // link text "ACN Timing"
 	};
