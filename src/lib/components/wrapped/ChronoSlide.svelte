@@ -4,8 +4,8 @@
 	import { fmtTime } from '$lib/data/wrapped';
 	import { reveal, Counter } from './useReveal.svelte';
 
-	type Props = { me: Finisher };
-	let { me }: Props = $props();
+	type Props = { me: Finisher; fastest: number };
+	let { me, fastest }: Props = $props();
 
 	const counter = new Counter();
 </script>
@@ -16,6 +16,9 @@
 		<h2 class="big mono">{fmtTime(Math.round(counter.value))}</h2>
 		<p class="sub">
 			20&nbsp;km dans les jambes. <em>Chapeau pour le chrono.</em>
+		</p>
+		<p class="ref mono">
+			Le plus rapide du jour&nbsp;: {fmtTime(fastest)}.
 		</p>
 	</div>
 </SlideShell>
@@ -52,6 +55,14 @@
 	.sub em {
 		font-style: italic;
 		color: var(--hot);
+	}
+	.ref {
+		margin: clamp(8px, 1.4dvh, 14px) 0 0;
+		font-family: var(--font-mono);
+		font-feature-settings: 'tnum' 1;
+		font-size: clamp(12px, 1.6vw, 14px);
+		color: var(--ink-3);
+		letter-spacing: 0.02em;
 	}
 	.mono {
 		font-family: var(--font-mono);

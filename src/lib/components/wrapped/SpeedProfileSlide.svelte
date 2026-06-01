@@ -8,6 +8,10 @@
 
 	const growth = new Counter();
 
+	function fmtKm(km: number): string {
+		return String(km).replace('.', ',').replace(/,0$/, '');
+	}
+
 	type Leg = { label: string; from: number; to: number; speed: number };
 	const legs = $derived.by<Leg[]>(() => {
 		const pts: { km: number; t: number | null }[] = [
@@ -15,7 +19,7 @@
 			{ km: 5.5, t: me.t55 },
 			{ km: 10, t: me.t10 },
 			{ km: 15, t: me.t15 },
-			{ km: 20.04, t: me.t }
+			{ km: 20, t: me.t }
 		];
 		const out: Leg[] = [];
 		for (let i = 1; i < pts.length; i++) {
@@ -25,7 +29,7 @@
 			const dKm = b.km - a.km;
 			const dH = (b.t - a.t) / 3600;
 			out.push({
-				label: `${String(a.km).replace('.', ',')}–${String(b.km).replace('.', ',')}`,
+				label: `${fmtKm(a.km)}–${fmtKm(b.km)}`,
 				from: a.km,
 				to: b.km,
 				speed: dKm / dH
@@ -54,8 +58,16 @@
 	}
 
 	function fmtSpeed(kmh: number): string {
-		return kmh.toFixed(1).replace('.', ',');
+		return kmh.toFixed(1).replace('.', ',').replace(/,0$/, '');
 	}
+
+	const slowestPhrase = $derived.by(() => {
+		if (!slowest) return '';
+		if (slowest.from === 0) return `sur les ${fmtKm(slowest.to)} premiers km`;
+		if (slowestIdx === legs.length - 1)
+			return `dans les ${fmtKm(slowest.to - slowest.from)} derniers km`;
+		return `entre ${fmtKm(slowest.from)} et ${fmtKm(slowest.to)} km`;
+	});
 </script>
 
 <SlideShell tone="ink">
@@ -64,7 +76,7 @@
 		{#if hasLegs && slowest}
 			<h2 class="lede">
 				Votre passage le plus lent&nbsp;:
-				<em class="hot">entre {slowest.from} et {slowest.to} km</em>
+				<em class="hot">{slowestPhrase}</em>
 				({fmtSpeed(slowest.speed)}&nbsp;km/h).
 				<em>Tout le monde a son moment difficile. Vous l'avez surmonté.</em>
 			</h2>

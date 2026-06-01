@@ -72,7 +72,7 @@
 					type="text"
 					inputmode="text"
 					bind:value={query}
-					placeholder="Prénom NOM ou n° de dossard"
+					placeholder="Prénom NOM ou dossard"
 					autocomplete="off"
 					autocapitalize="words"
 					spellcheck="false"
@@ -206,12 +206,14 @@
 	.field-input {
 		flex: 1;
 		width: 100%;
+		min-width: 0;
 		box-sizing: border-box;
-		padding: 14px 48px 14px 18px;
+		padding: 14px 48px 14px 16px;
 		font-family: var(--font-display);
 		font-weight: 600;
-		font-size: 22px;
+		font-size: clamp(15px, 4.2vw, 22px);
 		letter-spacing: -0.01em;
+		text-overflow: ellipsis;
 		color: var(--ink);
 		background: var(--bg-2);
 		border: 1px solid var(--line);

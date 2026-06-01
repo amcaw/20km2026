@@ -56,9 +56,6 @@
 	});
 
 	const totalRunners = $derived(bars.reduce((s, b) => s + b.total, 0));
-	const biggest = $derived(
-		bars.length ? bars.reduce((a, b) => (b.total > a.total ? b : a)) : null
-	);
 	const yours = $derived(bars.find((b) => b.isMine) ?? null);
 	const yourShare = $derived(
 		yours && totalRunners > 0 ? Math.round((yours.total / totalRunners) * 100) : null
@@ -69,16 +66,18 @@
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
 	<p class="eyebrow">Toutes générations confondues</p>
 	<h2 class="lede">
-		{#if yours && yourShare != null && biggest}
-			{#if biggest.age === yours.age}
-				Votre tranche d'âge ({AGE_LABEL[yours.age]}&nbsp;ans) est la plus
-				nombreuse&nbsp;: <strong class="mono">{yourShare}%</strong> de tous
-				les finishers, hommes et femmes confondus.
-			{:else}
-				Votre tranche d'âge ({AGE_LABEL[yours.age]}&nbsp;ans) représente
+		{#if yours && yourShare != null}
+			{#if yourShare >= 1}
+				Vous étiez parmi les
+				<strong class="mono">{fmtThousands(yours.total)}</strong>
+				coureurs {AGE_LABEL[yours.age]}&nbsp;ans, soit
 				<strong class="mono">{yourShare}%</strong> de tous les finishers.
-				La plus nombreuse&nbsp;: <em class="hot">{AGE_LABEL[biggest.age]}&nbsp;ans</em>.
 				<em>Toutes les générations étaient là, vous compris.</em>
+			{:else}
+				Vous étiez parmi les
+				<strong class="mono">{fmtThousands(yours.total)}</strong>
+				coureurs {AGE_LABEL[yours.age]}&nbsp;ans.
+				<em>Une tranche rare. Vous tenez la distance.</em>
 			{/if}
 		{:else}
 			Voici toutes les tranches d'âge, hommes et femmes réunis.
@@ -102,7 +101,7 @@
 						y={y(v) + 6}
 						text-anchor="end"
 						class="axis-label mono"
-					>{fmtThousands(v)}</text>
+					>{v}</text>
 				{/each}
 
 				{#each bars as bar, i (bar.age)}
@@ -200,11 +199,6 @@
 		color: var(--ink-2);
 		max-width: 42ch;
 		text-wrap: pretty;
-	}
-	.lede em.hot {
-		font-style: italic;
-		color: var(--hot);
-		font-weight: 700;
 	}
 	.lede strong {
 		font-weight: 700;

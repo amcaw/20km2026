@@ -8,6 +8,7 @@
 	import WrappedPips from '$lib/components/wrapped/WrappedPips.svelte';
 	import SearchSlide from '$lib/components/wrapped/SearchSlide.svelte';
 	import CoverSlide from '$lib/components/wrapped/CoverSlide.svelte';
+	import CountrySlide from '$lib/components/wrapped/CountrySlide.svelte';
 	import GenderSlide from '$lib/components/wrapped/GenderSlide.svelte';
 	import AgeBandSlide from '$lib/components/wrapped/AgeBandSlide.svelte';
 	import CategoryBreakdownSlide from '$lib/components/wrapped/CategoryBreakdownSlide.svelte';
@@ -27,7 +28,7 @@
 
 	let me = $state<Finisher | null>(null);
 
-	const TOTAL_CONTENT_SLIDES = 13;
+	const TOTAL_CONTENT_SLIDES = 14;
 
 	let scrollEl = $state<HTMLElement | null>(null);
 
@@ -154,39 +155,42 @@
 				<CoverSlide {me} {stats} />
 			</div>
 			<div data-slide="2">
-				<GenderSlide {me} {stats} />
+				<CountrySlide {me} {stats} />
 			</div>
 			<div data-slide="3">
-				<AgeBandSlide {me} {stats} />
+				<GenderSlide {me} {stats} />
 			</div>
 			<div data-slide="4">
-				<CategoryBreakdownSlide {me} {stats} />
+				<AgeBandSlide {me} {stats} />
 			</div>
 			<div data-slide="5">
-				<ChronoSlide {me} />
+				<CategoryBreakdownSlide {me} {stats} />
 			</div>
 			<div data-slide="6">
-				<PaceSlide {me} {catStats} />
+				<ChronoSlide {me} fastest={stats.global.fastest} />
 			</div>
 			<div data-slide="7">
-				<RankSlide {me} total={stats.global.total} />
+				<PaceSlide {me} {catStats} />
 			</div>
 			<div data-slide="8">
-				<FinishTimeDistSlide {me} {stats} />
+				<RankSlide {me} total={stats.global.total} />
 			</div>
 			<div data-slide="9">
-				<CategoryDistributionSlide {me} {catStats} />
+				<FinishTimeDistSlide {me} {stats} />
 			</div>
 			<div data-slide="10">
-				<SplitSlide {me} {stats} />
+				<CategoryDistributionSlide {me} {catStats} />
 			</div>
 			<div data-slide="11">
-				<SpeedProfileSlide {me} />
+				<SplitSlide {me} {stats} />
 			</div>
 			<div data-slide="12">
-				<RankProgressSlide {me} total={stats.global.total} />
+				<SpeedProfileSlide {me} />
 			</div>
 			<div data-slide="13">
+				<RankProgressSlide {me} total={stats.global.total} />
+			</div>
+			<div data-slide="14">
 				<ShareSlide
 					{me}
 					genderCurve={stats.genderRankCurve[me.gender === 'F' ? 'F' : 'M']}

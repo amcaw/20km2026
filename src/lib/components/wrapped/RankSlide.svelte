@@ -7,6 +7,7 @@
 	type Props = { me: Finisher; total: number };
 	let { me, total }: Props = $props();
 	const pct = $derived(fasterThanPct(me, total));
+	const fromLast = $derived(total - me.pos + 1);
 
 	const counter = new Counter();
 </script>
@@ -17,10 +18,20 @@
 		<h2 class="big mono">#{fmtThousands(Math.round(counter.value))}</h2>
 		<p class="sub">
 			sur <strong class="hot mono">{fmtThousands(total)}</strong> finishers.
-			<em
-				>Vous avez fini devant <strong class="mono">{pct}%</strong> des
-				participants. Solide.</em
-			>
+			{#if me.pos === 1}
+				<em>Personne devant vous. Vous avez gagné.</em>
+			{:else if me.pos <= 3}
+				<em>Sur le podium. Chapeau.</em>
+			{:else if me.pos <= 100}
+				<em>Dans le top 100. Costaud.</em>
+			{:else if fromLast <= 50}
+				<em>Vous avez tenu jusqu'au bout. C'est tout ce qui compte.</em>
+			{:else}
+				<em
+					>Vous avez fini devant <strong class="mono">{pct}%</strong> des
+					participants. Solide.</em
+				>
+			{/if}
 		</p>
 	</div>
 </SlideShell>

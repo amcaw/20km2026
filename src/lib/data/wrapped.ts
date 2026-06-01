@@ -247,14 +247,13 @@ export function splitProfile(me: Finisher): {
 }
 
 const AGE_LABEL: Record<string, string> = {
-	U20: 'moins de 20 ans',
-	'20': '20–29 ans',
-	'30': '30–39 ans',
-	'40': '40–49 ans',
-	'50': '50–59 ans',
-	'60': '60–69 ans',
-	'70': '70 ans et plus',
-	'80': '80 ans et plus'
+	U20: 'de moins de 20 ans',
+	'20': 'de 20 à 39 ans',
+	'40': 'de 40 à 49 ans',
+	'50': 'de 50 à 59 ans',
+	'60': 'de 60 à 69 ans',
+	'70': 'de 70 à 79 ans',
+	'80': 'de 80 ans et plus'
 };
 const GENDER_LABEL: Record<string, string> = {
 	F: 'femmes',

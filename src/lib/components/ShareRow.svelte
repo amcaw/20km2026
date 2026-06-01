@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
 
+	const SITE_URL = 'https://amcaw.github.io/20km2026/';
+
 	type Props = {
 		shareUrl?: string;
 		shareTitle?: string;
@@ -12,9 +14,7 @@
 	}: Props = $props();
 
 	function resolvedUrl(): string {
-		if (shareUrl) return shareUrl;
-		if (typeof window !== 'undefined') return window.location.href;
-		return '';
+		return shareUrl ?? SITE_URL;
 	}
 
 	function open(href: string) {

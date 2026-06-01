@@ -23,6 +23,15 @@
 	const pct = $derived(fasterThanPct(me, total));
 	const myPace = $derived(paceFor(me.t, 20));
 
+	const shareTitle = $derived.by(() => {
+		const t = fmtTime(me.t);
+		const n = fmtThousands(total);
+		if (me.pos === 1) return `J'ai gagné les 20 km de Bruxelles en ${t} !`;
+		if (me.pos <= 100) return `J'ai fini ${me.pos}e des 20 km de Bruxelles en ${t}, sur ${n} finishers.`;
+		const top = Math.max(1, 100 - pct);
+		return `J'ai couru les 20 km de Bruxelles en ${t}, dans le top ${top}% sur ${n} finishers.`;
+	});
+
 	const gRank = $derived(genderRank(genderCurve, me));
 
 	const genderNoun = $derived(
@@ -93,10 +102,10 @@
 
 		<div class="p-actions">
 			<ShareRow
-				shareTitle={`J'ai couru les 20 km de Bruxelles en ${fmtTime(me.t)}, top ${100 - pct}% sur ${fmtThousands(total)} finishers.`}
+				{shareTitle}
 			/>
 			<button type="button" class="restart" onclick={onRestart}>
-				Chercher un autre coureur
+				Chercher quelqu'un d'autre
 			</button>
 		</div>
 	</section>
@@ -202,21 +211,35 @@
 		margin-top: clamp(4px, 1dvh, 10px);
 	}
 	.restart {
+		align-self: flex-start;
 		font-family: var(--font-ui);
-		font-size: 11px;
+		font-size: 12px;
 		font-weight: 700;
-		letter-spacing: 0.14em;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: var(--ink-3);
-		background: transparent;
-		border: 0;
-		padding: 0;
+		color: var(--ink-2);
+		background: var(--bg-3);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		padding: 10px 18px;
 		cursor: pointer;
-		text-align: left;
-		transition: color 120ms ease;
+		transition:
+			background-color 120ms ease,
+			border-color 120ms ease,
+			color 120ms ease,
+			transform 120ms ease;
 	}
 	.restart:hover {
 		color: var(--ink);
+		border-color: var(--hot);
+		background: rgba(var(--hot-rgb), 0.1);
+	}
+	.restart:active {
+		transform: scale(0.97);
+	}
+	.restart:focus-visible {
+		outline: 2px solid var(--hot);
+		outline-offset: 2px;
 	}
 
 	.mono {

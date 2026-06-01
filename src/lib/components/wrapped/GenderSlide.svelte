@@ -26,6 +26,13 @@
 
 	const yourCount = $derived(yours?.n ?? 0);
 
+	const medianGapMin = $derived.by(() => {
+		const f = stats.byGender?.F?.medianTime;
+		const m = stats.byGender?.M?.medianTime;
+		if (f == null || m == null) return null;
+		return Math.round(Math.abs(f - m) / 60);
+	});
+
 	let chartRevealed = $state(false);
 	function onReveal() {
 		if (yourCount > 0) counter.run(yourCount);
@@ -65,6 +72,10 @@
 
 	<p class="sub">
 		Tous ensemble&nbsp;: <strong class="mono">{fmtThousands(total)}</strong> personnes.
+		{#if medianGapMin != null && medianGapMin > 0}
+			Entre le temps médian des hommes et celui des femmes&nbsp;:
+			<strong class="mono">{medianGapMin}&nbsp;min</strong> d'écart.
+		{/if}
 	</p>
 	</div>
 </SlideShell>
