@@ -108,6 +108,8 @@
 		</button>
 	</form>
 
+	<p class="scope">{t().search.scope}</p>
+
 	{#if netError && !stale}
 		<p class="msg err">{t().search.netError}</p>
 	{:else if attempted && !stale && !searching && matches.length === 0}
@@ -118,6 +120,7 @@
 			{:else}
 				{t().search.hintName}
 			{/if}
+			{t().search.scope}
 		</p>
 	{/if}
 
@@ -275,6 +278,14 @@
 		cursor: not-allowed;
 	}
 
+	.scope {
+		margin: -4px 0 0;
+		font-family: var(--font-ui);
+		font-size: 12px;
+		line-height: 1.5;
+		color: var(--ink-3);
+		max-width: 44ch;
+	}
 	.msg {
 		margin: 0;
 		font-family: var(--font-ui);

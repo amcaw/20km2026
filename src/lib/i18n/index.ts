@@ -37,6 +37,7 @@ export type Dict = {
 		noMatch: (query: string) => string;
 		hintBib: string;
 		hintName: string;
+		scope: string; // "runners only, not walkers / handisport"
 		disambig: string;
 		credit: string; // "par Ambroise Carton" byline shown above the legal line
 		legalPrefix: string; // "Aucune donnée…" up to the source link

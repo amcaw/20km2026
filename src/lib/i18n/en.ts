@@ -24,6 +24,7 @@ export const en: Dict = {
 		hintBib: 'Double-check your bib number.',
 		hintName:
 			'Check the spelling (first name then LAST NAME, as on your bib), or try your bib number.',
+		scope: 'Runners only. Walkers and para-athletics have their own separate rankings.',
 		disambig: 'Several runners share this name. Pick yours:',
 		credit: 'Development and storytelling by Ambroise Carton for Décrypte',
 		legalPrefix:

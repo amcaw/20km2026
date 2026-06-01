@@ -24,6 +24,7 @@ export const nl: Dict = {
 		hintBib: 'Controleer je borstnummer.',
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
+		scope: 'Enkel de lopers. Wandelaars en para-atletiek hebben hun eigen klassement.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
 		credit: 'Ontwikkeling en verhaal door Ambroise Carton voor Décrypte',
 		legalPrefix:
