@@ -11,3 +11,7 @@ build
 # aggregate static/data/wrapped/stats.json (built from it) is shipped.
 src/lib/assets/data/results_20km_2026.csv
 static/data/wrapped/finishers.json
+
+# Local screenshot tooling — not part of the app
+screenshots
+_shots.mjs
