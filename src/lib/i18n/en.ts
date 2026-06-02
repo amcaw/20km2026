@@ -24,8 +24,8 @@ export const en: Dict = {
 		hintBib: 'Double-check your bib number.',
 		hintName:
 			'Check the spelling (first name then LAST NAME, as on your bib), or try your bib number.',
-		scope: 'Runners and participants. Walkers have their own separate ranking.',
-		scopeBefore: 'Runners and participants. For walkers, see their ',
+		scope: 'Runners and para-category athletes. Walkers have their own separate ranking.',
+		scopeBefore: 'Runners and para-category athletes. For walkers, see their ',
 		scopeWalkers: 'dedicated ranking',
 		scopeAfter: '.',
 		disambig: 'Several runners share this name. Pick yours:',

@@ -24,8 +24,8 @@ export const nl: Dict = {
 		hintBib: 'Controleer je borstnummer.',
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
-		scope: 'Lopers en deelnemers. Wandelaars hebben hun eigen klassement.',
-		scopeBefore: 'Lopers en deelnemers. Voor wandelaars, zie hun ',
+		scope: 'Lopers en handisporters. Wandelaars hebben hun eigen klassement.',
+		scopeBefore: 'Lopers en handisporters. Voor wandelaars, zie hun ',
 		scopeWalkers: 'eigen klassement',
 		scopeAfter: '.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
