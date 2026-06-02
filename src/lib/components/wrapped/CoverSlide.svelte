@@ -15,7 +15,7 @@
 	<div use:reveal={{ onReveal: () => counter.run(stats.global.total) }}>
 		<p class="eyebrow">{t().cover.eyebrow}</p>
 		<h1 class="lede">
-			{@html t().cover.lede(n)}<br />
+			{@html t().cover.lede(n, me.meet === 'handi')}<br />
 			{t().cover.ledeAfter}
 		</h1>
 		<p class="signature">

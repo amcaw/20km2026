@@ -50,7 +50,7 @@ export type Dict = {
 	// --- cover ---
 	cover: {
 		eyebrow: string;
-		lede: (n: string) => string; // n already formatted; returns HTML before "Et vous…"
+		lede: (n: string, isPara: boolean) => string; // n already formatted; returns HTML before "Et vous…"
 		ledeAfter: string;
 		signature: string;
 	};

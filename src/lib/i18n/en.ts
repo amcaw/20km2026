@@ -24,8 +24,8 @@ export const en: Dict = {
 		hintBib: 'Double-check your bib number.',
 		hintName:
 			'Check the spelling (first name then LAST NAME, as on your bib), or try your bib number.',
-		scope: 'Runners and para-athletes. Walkers have their own separate ranking.',
-		scopeBefore: 'Runners and para-athletes. For walkers, see their ',
+		scope: 'Runners and participants. Walkers have their own separate ranking.',
+		scopeBefore: 'Runners and participants. For walkers, see their ',
 		scopeWalkers: 'dedicated ranking',
 		scopeAfter: '.',
 		disambig: 'Several runners share this name. Pick yours:',
@@ -37,7 +37,10 @@ export const en: Dict = {
 
 	cover: {
 		eyebrow: '20 km of Brussels · 2026 edition',
-		lede: (n) => `${n} people crossed the finish line.`,
+		lede: (n, isPara) =>
+			isPara
+				? `${n} participants in the para ranking crossed the finish line.`
+				: `${n} people crossed the finish line.`,
 		ledeAfter: 'And you were one of them.',
 		signature: 'Well done. Here’s your race, in numbers.'
 	},
@@ -58,7 +61,7 @@ export const en: Dict = {
 		lede: (othersN, noun, _g, isPara) =>
 			`You weren’t alone. ` +
 			(isPara
-				? `<strong class="hot mono">${othersN}</strong> other para-athletes, of every age, completed the course with you.`
+				? `<strong class="hot mono">${othersN}</strong> other participants, of every age, completed the course with you.`
 				: `<strong class="hot mono">${othersN}</strong> other ${noun}, of every age, ran with you.`),
 		ledeFallback: (total) => `You were among the ${total} finishers.`,
 		ariaBar: 'Women / men split among finishers',
@@ -82,11 +85,11 @@ export const en: Dict = {
 	catBreakdown: {
 		eyebrow: 'All genders and ages combined',
 		ledeShare: (n, band, pct, isPara) =>
-			`You were among the <strong class="mono">${n}</strong> ${isPara ? 'para-athletes' : 'runners'} ${band}, ` +
+			`You were among the <strong class="mono">${n}</strong> ${isPara ? 'participants' : 'runners'} ${band}, ` +
 			`that’s <strong class="mono">${pct}%</strong> of all finishers. ` +
 			`<em>Every generation was there, you included.</em>`,
 		ledeRare: (n, band, isPara) =>
-			`You were among the <strong class="mono">${n}</strong> ${isPara ? 'para-athletes' : 'runners'} ${band}. ` +
+			`You were among the <strong class="mono">${n}</strong> ${isPara ? 'participants' : 'runners'} ${band}. ` +
 			`<em>A rare group. You go the distance.</em>`,
 		ledeFallback: 'Here are all the age groups, women and men combined.',
 		legendF: 'Women',
@@ -128,7 +131,7 @@ export const en: Dict = {
 	finishDist: {
 		eyebrow: 'You in the distribution',
 		lede: (total, isPara) =>
-			`Each bar is the number of ${isPara ? 'para-athletes' : 'runners'} for one minute of finish time. ` +
+			`Each bar is the number of ${isPara ? 'participants' : 'runners'} for one minute of finish time. ` +
 			`<strong class="mono">${total}</strong> in total, women in light, men in dark. ` +
 			`The white line is you: <em>further left, faster.</em>`,
 		you: 'you',
@@ -185,7 +188,7 @@ export const en: Dict = {
 	rankProgress: {
 		eyebrow: 'Your race through the field',
 		gainedLate: (n, isPara) =>
-			`On the finish, you passed <strong class="mono">${n}</strong> ${isPara ? 'para-athletes' : 'runners'}. <em>You finished strong.</em>`,
+			`On the finish, you passed <strong class="mono">${n}</strong> ${isPara ? 'participants' : 'runners'}. <em>You finished strong.</em>`,
 		gainedNet: (n, _isPara) =>
 			`From start to finish, you climbed <strong class="mono">${n}</strong> places. <em>Smartly run.</em>`,
 		lostLate: (n, _isPara) =>

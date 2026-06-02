@@ -24,8 +24,8 @@ export const nl: Dict = {
 		hintBib: 'Controleer je borstnummer.',
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
-		scope: 'Lopers en para-atleten. Wandelaars hebben hun eigen klassement.',
-		scopeBefore: 'Lopers en para-atleten. Voor wandelaars, zie hun ',
+		scope: 'Lopers en deelnemers. Wandelaars hebben hun eigen klassement.',
+		scopeBefore: 'Lopers en deelnemers. Voor wandelaars, zie hun ',
 		scopeWalkers: 'eigen klassement',
 		scopeAfter: '.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
@@ -37,7 +37,10 @@ export const nl: Dict = {
 
 	cover: {
 		eyebrow: '20 km van Brussel · editie 2026',
-		lede: (n) => `${n} mensen kwamen over de finish.`,
+		lede: (n, isPara) =>
+			isPara
+				? `${n} deelnemers in het handisportklassement kwamen over de finish.`
+				: `${n} mensen kwamen over de finish.`,
 		ledeAfter: 'En jij was erbij.',
 		signature: 'Proficiat. Hier is jouw race, in cijfers.'
 	},
@@ -58,7 +61,7 @@ export const nl: Dict = {
 		lede: (othersN, noun, _g, isPara) =>
 			`Je was niet alleen. ` +
 			(isPara
-				? `<strong class="hot mono">${othersN}</strong> andere para-atleten, van alle leeftijden, voltooiden het parcours met je mee.`
+				? `<strong class="hot mono">${othersN}</strong> andere deelnemers, van alle leeftijden, voltooiden het parcours met je mee.`
 				: `<strong class="hot mono">${othersN}</strong> andere ${noun}, van alle leeftijden, liepen met je mee.`),
 		ledeFallback: (total) => `Je was een van de ${total} finishers.`,
 		ariaBar: 'Verdeling vrouwen / mannen onder de finishers',
@@ -82,11 +85,11 @@ export const nl: Dict = {
 	catBreakdown: {
 		eyebrow: 'Alle geslachten en leeftijden samen',
 		ledeShare: (n, band, pct, isPara) =>
-			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} ${band}, ` +
+			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'deelnemers' : 'lopers'} ${band}, ` +
 			`oftewel <strong class="mono">${pct}%</strong> van alle finishers. ` +
 			`<em>Elke generatie was er, jij inclusief.</em>`,
 		ledeRare: (n, band, isPara) =>
-			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} ${band}. ` +
+			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'deelnemers' : 'lopers'} ${band}. ` +
 			`<em>Een zeldzame groep. Jij houdt vol.</em>`,
 		ledeFallback: 'Hier zijn alle leeftijdsgroepen, vrouwen en mannen samen.',
 		legendF: 'Vrouwen',
@@ -128,7 +131,7 @@ export const nl: Dict = {
 	finishDist: {
 		eyebrow: 'Jij in de verdeling',
 		lede: (total, isPara) =>
-			`Elke balk is het aantal ${isPara ? 'para-atleten' : 'lopers'} voor één minuut eindtijd. ` +
+			`Elke balk is het aantal ${isPara ? 'deelnemers' : 'lopers'} voor één minuut eindtijd. ` +
 			`<strong class="mono">${total}</strong> in totaal, vrouwen in het licht, mannen in het donker. ` +
 			`De witte lijn ben jij: <em>meer naar links, sneller.</em>`,
 		you: 'jij',
@@ -185,7 +188,7 @@ export const nl: Dict = {
 	rankProgress: {
 		eyebrow: 'Jouw race door het veld',
 		gainedLate: (n, isPara) =>
-			`Op het einde haalde je <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} in. <em>Je finishte sterk.</em>`,
+			`Op het einde haalde je <strong class="mono">${n}</strong> ${isPara ? 'deelnemers' : 'lopers'} in. <em>Je finishte sterk.</em>`,
 		gainedNet: (n, _isPara) =>
 			`Van start tot finish klom je <strong class="mono">${n}</strong> plaatsen. <em>Slim gelopen.</em>`,
 		lostLate: (n, _isPara) =>
