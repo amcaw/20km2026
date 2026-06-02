@@ -85,11 +85,11 @@
 		{#if hasTrajectory}
 			<h2 class="lede">
 				{#if lastLegGain > 20}
-					{@html t().rankProgress.gainedLate(fmtThousands(lastLegGain))}
+					{@html t().rankProgress.gainedLate(fmtThousands(lastLegGain), me.meet === 'handi')}
 				{:else if netGain > 20}
-					{@html t().rankProgress.gainedNet(fmtThousands(netGain))}
+					{@html t().rankProgress.gainedNet(fmtThousands(netGain), me.meet === 'handi')}
 				{:else if netGain < -20}
-					{@html t().rankProgress.lostLate(fmtThousands(-netGain))}
+					{@html t().rankProgress.lostLate(fmtThousands(-netGain), me.meet === 'handi')}
 				{:else}
 					{@html t().rankProgress.held}
 				{/if}

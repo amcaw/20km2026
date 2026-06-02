@@ -23,11 +23,16 @@
 	import RankProgressSlide from '$lib/components/wrapped/RankProgressSlide.svelte';
 	import ShareSlide from '$lib/components/wrapped/ShareSlide.svelte';
 
-	let stats = $state<WrappedStats | null>(null);
+	let runnerStats = $state<WrappedStats | null>(null);
+	let handiStats = $state<WrappedStats | null>(null);
 	let loading = $state(true);
 	let errorMsg = $state<string | null>(null);
 
 	let me = $state<Finisher | null>(null);
+
+	// The active aggregates follow the selected finisher's meet, so a para
+	// athlete is compared against the para peloton, never the runners.
+	const stats = $derived(me?.meet === 'handi' ? handiStats : runnerStats);
 
 	let scrollEl = $state<HTMLElement | null>(null);
 
@@ -35,13 +40,19 @@
 
 	onMount(async () => {
 		try {
-			stats = await loadStats();
+			runnerStats = await loadStats('runners');
 		} catch (e) {
 			errorMsg = e instanceof Error ? e.message : String(e);
 		} finally {
 			loading = false;
 		}
 	});
+
+	async function handleSelectMeet(f: Finisher) {
+		if (f.meet === 'handi' && !handiStats) {
+			handiStats = await loadStats('handi');
+		}
+	}
 
 	$effect(() => {
 		if (!scrollEl || !me) return;
@@ -71,7 +82,8 @@
 		return () => io.disconnect();
 	});
 
-	function handleSelect(f: Finisher) {
+	async function handleSelect(f: Finisher) {
+		await handleSelectMeet(f);
 		me = f;
 		queueMicrotask(() => {
 			const next = scrollEl?.querySelector<HTMLElement>('[data-slide="1"]');

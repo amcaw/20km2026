@@ -34,7 +34,7 @@
 		<p class="eyebrow">{t().chrono.eyebrow}</p>
 		<h2 class="big mono">{fmtTime(Math.round(counter.value))}</h2>
 		<p class="sub">
-			{@html t().chrono.sub}
+			{@html me.meet === 'handi' ? t().chrono.subPara : t().chrono.sub}
 		</p>
 
 		<div class="fastest-block">

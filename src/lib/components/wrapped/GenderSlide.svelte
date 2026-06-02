@@ -49,7 +49,8 @@
 			{@html t().gender.lede(
 				fmtThousands(Math.round(counter.value) - 1),
 				yours.label.toLowerCase(),
-				me.gender
+				me.gender,
+				me.meet === 'handi'
 			)}
 		{:else}
 			{@html t().gender.ledeFallback(fmtThousands(total))}

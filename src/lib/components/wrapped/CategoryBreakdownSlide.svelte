@@ -72,12 +72,14 @@
 				{@html t().catBreakdown.ledeShare(
 					fmtThousands(yours.total),
 					t().ageLabel[yours.age] ?? yours.age,
-					yourShare
+					yourShare,
+					me.meet === 'handi'
 				)}
 			{:else}
 				{@html t().catBreakdown.ledeRare(
 					fmtThousands(yours.total),
-					t().ageLabel[yours.age] ?? yours.age
+					t().ageLabel[yours.age] ?? yours.age,
+					me.meet === 'handi'
 				)}
 			{/if}
 		{:else}

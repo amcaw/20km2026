@@ -1,7 +1,10 @@
 import { base } from '$app/paths';
 import { t, type Gender } from '$lib/i18n';
 
+export type Meet = 'runners' | 'handi';
+
 export type Finisher = {
+	meet: Meet;
 	pos: number;
 	gender: 'F' | 'M' | 'X';
 	bib: number;
@@ -53,19 +56,28 @@ export type WrappedStats = {
 	genderRankCurve: Record<'F' | 'M', RankCurve>;
 };
 
-let _stats: WrappedStats | null = null;
+const _stats: Partial<Record<Meet, WrappedStats>> = {};
+const STATS_FILE: Record<Meet, string> = {
+	runners: 'stats.json',
+	handi: 'stats-handi.json'
+};
 
-export async function loadStats(): Promise<WrappedStats> {
-	if (_stats) return _stats;
-	const url = `${base}/data/wrapped/stats.json`;
+export async function loadStats(meet: Meet = 'runners'): Promise<WrappedStats> {
+	const cached = _stats[meet];
+	if (cached) return cached;
+	const url = `${base}/data/wrapped/${STATS_FILE[meet]}`;
 	const r = await fetch(url);
 	if (!r.ok) throw new Error(`${url}: ${r.status}`);
-	_stats = (await r.json()) as WrappedStats;
-	return _stats;
+	const data = (await r.json()) as WrappedStats;
+	_stats[meet] = data;
+	return data;
 }
 
-const API_URL =
-	'https://results.chronorace.be/api/results/table/search/20260531_20km/LIVE1';
+// The runners' meet (LIVE1) and the para-athletics meet (LIVE2) are separate
+// rankings on Chronorace. Search tries the runners first, then falls back to
+// the para meet, so a participant of either is found from a single search box.
+const API_BASE = 'https://results.chronorace.be/api/results/table/search/20260531_20km';
+const MEET_CTX: Record<Meet, string> = { runners: 'LIVE1', handi: 'LIVE2' };
 
 const API_COL = {
 	pos: 'sR_Pos',
@@ -103,7 +115,7 @@ function firstBold(html: string): string {
 	return m ? m[1].trim() : String(html).replace(/<[^>]+>/g, ' ').trim();
 }
 
-function rowToFinisher(row: unknown[], idx: Record<string, number>): Finisher | null {
+function rowToFinisher(row: unknown[], idx: Record<string, number>, meet: Meet): Finisher | null {
 	const cell = (key: keyof typeof API_COL): string => {
 		const i = idx[API_COL[key]];
 		const v = i == null ? null : row[i];
@@ -121,6 +133,7 @@ function rowToFinisher(row: unknown[], idx: Record<string, number>): Finisher | 
 
 	const gender = cell('gender');
 	return {
+		meet,
 		pos: parseIntLoose(cell('pos')) ?? 0,
 		gender: gender === 'F' || gender === 'M' || gender === 'X' ? gender : 'X',
 		bib: parseIntLoose(cell('bib')) ?? 0,
@@ -139,13 +152,13 @@ function rowToFinisher(row: unknown[], idx: Record<string, number>): Finisher | 
 	};
 }
 
-export async function search(query: string): Promise<Finisher[]> {
-	const trimmed = query.trim();
-	const asBib = /^\d+$/.test(trimmed) ? Number(trimmed) : null;
-	const q = norm(query);
-	if (asBib == null && q.length < 3) return [];
-
-	const url = `${API_URL}?srch=${encodeURIComponent(trimmed)}&fromRecord=0&pageSize=50`;
+async function searchMeet(
+	meet: Meet,
+	trimmed: string,
+	asBib: number | null,
+	q: string
+): Promise<Finisher[]> {
+	const url = `${API_BASE}/${MEET_CTX[meet]}?srch=${encodeURIComponent(trimmed)}&fromRecord=0&pageSize=50`;
 	const r = await fetch(url);
 	if (!r.ok) throw new Error(`Chronorace API: ${r.status}`);
 	const data = (await r.json()) as {
@@ -159,7 +172,7 @@ export async function search(query: string): Promise<Finisher[]> {
 	const out: Finisher[] = [];
 	for (const g of data.Groups ?? []) {
 		for (const row of g.SlaveRows ?? []) {
-			const f = rowToFinisher(row, idx);
+			const f = rowToFinisher(row, idx, meet);
 			if (!f) continue;
 			if (f.category && !/^[FMX](U20|\d{2})$/.test(f.category)) continue;
 			const hit = asBib != null ? f.bib === asBib : norm(f.name) === q;
@@ -167,6 +180,18 @@ export async function search(query: string): Promise<Finisher[]> {
 		}
 	}
 	return out;
+}
+
+export async function search(query: string): Promise<Finisher[]> {
+	const trimmed = query.trim();
+	const asBib = /^\d+$/.test(trimmed) ? Number(trimmed) : null;
+	const q = norm(query);
+	if (asBib == null && q.length < 3) return [];
+
+	// Runners first; only fall back to the para meet if nothing matched there.
+	const runners = await searchMeet('runners', trimmed, asBib, q);
+	if (runners.length) return runners;
+	return searchMeet('handi', trimmed, asBib, q);
 }
 
 function norm(s: string): string {

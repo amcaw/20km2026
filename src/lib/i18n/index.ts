@@ -40,9 +40,7 @@ export type Dict = {
 		scope: string; // plain text, used in the no-match error
 		scopeBefore: string; // linked version: prefix before the "walkers" link
 		scopeWalkers: string; // link text for the walkers ranking
-		scopeMid: string; // between the two links
-		scopePara: string; // link text for the para-athletics ranking
-		scopeAfter: string; // after the para link
+		scopeAfter: string; // after the walkers link
 		disambig: string;
 		credit: string; // "par Ambroise Carton" byline shown above the legal line
 		legalPrefix: string; // "Aucune donnée…" up to the source link
@@ -68,7 +66,9 @@ export type Dict = {
 	// --- gender ---
 	gender: {
 		eyebrow: string;
-		lede: (othersN: string, genderNoun: string, g: Gender) => string;
+		// isPara → para-athletics wording ("para-athlètes" / "terminé") instead
+		// of the runners' "coureurs" / "couru".
+		lede: (othersN: string, genderNoun: string, g: Gender, isPara: boolean) => string;
 		ledeFallback: (total: string) => string;
 		ariaBar: string;
 		labelF: string;
@@ -80,7 +80,7 @@ export type Dict = {
 	// --- age band ---
 	ageBand: {
 		eyebrow: string;
-		lede: (n: string, bandLabel: string, g: Gender) => string;
+		lede: (n: string, bandLabel: string, g: Gender, isPara: boolean) => string;
 		ledeFallback: string;
 		legendAll: string;
 		legendMine: (bandLabel: string) => string;
@@ -89,8 +89,8 @@ export type Dict = {
 	// --- category breakdown ---
 	catBreakdown: {
 		eyebrow: string;
-		ledeShare: (n: string, bandLabel: string, pct: number) => string;
-		ledeRare: (n: string, bandLabel: string) => string;
+		ledeShare: (n: string, bandLabel: string, pct: number, isPara: boolean) => string;
+		ledeRare: (n: string, bandLabel: string, isPara: boolean) => string;
 		ledeFallback: string;
 		legendF: string;
 		legendM: string;
@@ -101,6 +101,7 @@ export type Dict = {
 	chrono: {
 		eyebrow: string;
 		sub: string;
+		subPara: string;
 		fastestAllLabel: string;
 		fastestCatLabel: string;
 		fastestF: string;
@@ -131,7 +132,7 @@ export type Dict = {
 	// --- finish-time distribution ---
 	finishDist: {
 		eyebrow: string;
-		lede: (total: string) => string;
+		lede: (total: string, isPara: boolean) => string;
 		you: string;
 		legendF: string;
 		legendM: string;
@@ -182,9 +183,9 @@ export type Dict = {
 	// --- rank progress ---
 	rankProgress: {
 		eyebrow: string;
-		gainedLate: (n: string) => string;
-		gainedNet: (n: string) => string;
-		lostLate: (n: string) => string;
+		gainedLate: (n: string, isPara: boolean) => string;
+		gainedNet: (n: string, isPara: boolean) => string;
+		lostLate: (n: string, isPara: boolean) => string;
 		held: string;
 		fallback: string;
 		better: string;

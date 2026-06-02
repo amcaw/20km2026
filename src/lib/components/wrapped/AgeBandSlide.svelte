@@ -67,7 +67,8 @@
 			{@html t().ageBand.lede(
 				fmtThousands(Math.round(counter.value)),
 				t().ageLabel[yours.key] ?? yours.label,
-				me.gender
+				me.gender,
+				me.meet === 'handi'
 			)}
 		{:else}
 			{t().ageBand.ledeFallback}

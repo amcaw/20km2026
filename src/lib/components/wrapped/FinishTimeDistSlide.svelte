@@ -47,7 +47,7 @@
 	<div use:reveal={{ onReveal: () => growth.run(1) }}>
 	<p class="eyebrow">{t().finishDist.eyebrow}</p>
 	<h2 class="lede">
-		{@html t().finishDist.lede(fmtThousands(stats.global.total))}
+		{@html t().finishDist.lede(fmtThousands(stats.global.total), me.meet === 'handi')}
 	</h2>
 
 	<div class="chart-wrap">

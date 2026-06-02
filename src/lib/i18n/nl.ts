@@ -24,11 +24,9 @@ export const nl: Dict = {
 		hintBib: 'Controleer je borstnummer.',
 		hintName:
 			'Controleer de spelling (voornaam dan ACHTERNAAM, zoals op je borstnummer), of probeer je borstnummer.',
-		scope: 'Enkel de lopers. Wandelaars en para-atletiek hebben hun eigen klassement.',
-		scopeBefore: 'Enkel de lopers. Bekijk ook het klassement van de ',
-		scopeWalkers: 'wandelaars',
-		scopeMid: ' of de ',
-		scopePara: 'para-atletiek',
+		scope: 'Lopers en para-atleten. Wandelaars hebben hun eigen klassement.',
+		scopeBefore: 'Lopers en para-atleten. Voor wandelaars, zie hun ',
+		scopeWalkers: 'eigen klassement',
 		scopeAfter: '.',
 		disambig: 'Meerdere lopers dragen deze naam. Kies de jouwe:',
 		credit: 'Ontwikkeling en verhaal door Ambroise Carton voor Décrypte',
@@ -57,9 +55,11 @@ export const nl: Dict = {
 
 	gender: {
 		eyebrow: 'Lopers van jouw geslacht',
-		lede: (othersN, noun) =>
+		lede: (othersN, noun, _g, isPara) =>
 			`Je was niet alleen. ` +
-			`<strong class="hot mono">${othersN}</strong> andere ${noun}, van alle leeftijden, liepen met je mee.`,
+			(isPara
+				? `<strong class="hot mono">${othersN}</strong> andere para-atleten, van alle leeftijden, voltooiden het parcours met je mee.`
+				: `<strong class="hot mono">${othersN}</strong> andere ${noun}, van alle leeftijden, liepen met je mee.`),
 		ledeFallback: (total) => `Je was een van de ${total} finishers.`,
 		ariaBar: 'Verdeling vrouwen / mannen onder de finishers',
 		labelF: 'Vrouwen',
@@ -71,7 +71,7 @@ export const nl: Dict = {
 
 	ageBand: {
 		eyebrow: 'Jouw geslacht en leeftijd',
-		lede: (n, band) =>
+		lede: (n, band, _g, _isPara) =>
 			`Onder hen deelden <strong class="mono">${n}</strong> ook jouw leeftijdsgroep ` +
 			`(<em class="accent">${band}</em>).`,
 		ledeFallback: 'Geen leeftijdsgenoten gevonden in jouw categorie dit jaar.',
@@ -81,12 +81,12 @@ export const nl: Dict = {
 
 	catBreakdown: {
 		eyebrow: 'Alle geslachten en leeftijden samen',
-		ledeShare: (n, band, pct) =>
-			`Je was een van de <strong class="mono">${n}</strong> lopers ${band}, ` +
+		ledeShare: (n, band, pct, isPara) =>
+			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} ${band}, ` +
 			`oftewel <strong class="mono">${pct}%</strong> van alle finishers. ` +
 			`<em>Elke generatie was er, jij inclusief.</em>`,
-		ledeRare: (n, band) =>
-			`Je was een van de <strong class="mono">${n}</strong> lopers ${band}. ` +
+		ledeRare: (n, band, isPara) =>
+			`Je was een van de <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} ${band}. ` +
 			`<em>Een zeldzame groep. Jij houdt vol.</em>`,
 		ledeFallback: 'Hier zijn alle leeftijdsgroepen, vrouwen en mannen samen.',
 		legendF: 'Vrouwen',
@@ -97,6 +97,7 @@ export const nl: Dict = {
 	chrono: {
 		eyebrow: 'En je finishte in',
 		sub: '20 km in de benen. <em>Petje af voor die tijd.</em>',
+		subPara: '20 km voltooid. <em>Petje af voor die tijd.</em>',
 		fastestAllLabel: 'Snelste van de dag',
 		fastestCatLabel: 'Snelste in jouw categorie',
 		fastestF: 'vrouwen',
@@ -126,8 +127,8 @@ export const nl: Dict = {
 
 	finishDist: {
 		eyebrow: 'Jij in de verdeling',
-		lede: (total) =>
-			`Elke balk is het aantal lopers voor één minuut eindtijd. ` +
+		lede: (total, isPara) =>
+			`Elke balk is het aantal ${isPara ? 'para-atleten' : 'lopers'} voor één minuut eindtijd. ` +
 			`<strong class="mono">${total}</strong> in totaal, vrouwen in het licht, mannen in het donker. ` +
 			`De witte lijn ben jij: <em>meer naar links, sneller.</em>`,
 		you: 'jij',
@@ -183,11 +184,11 @@ export const nl: Dict = {
 
 	rankProgress: {
 		eyebrow: 'Jouw race door het veld',
-		gainedLate: (n) =>
-			`Op het einde haalde je <strong class="mono">${n}</strong> lopers in. <em>Je finishte sterk.</em>`,
-		gainedNet: (n) =>
+		gainedLate: (n, isPara) =>
+			`Op het einde haalde je <strong class="mono">${n}</strong> ${isPara ? 'para-atleten' : 'lopers'} in. <em>Je finishte sterk.</em>`,
+		gainedNet: (n, _isPara) =>
 			`Van start tot finish klom je <strong class="mono">${n}</strong> plaatsen. <em>Slim gelopen.</em>`,
-		lostLate: (n) =>
+		lostLate: (n, _isPara) =>
 			`Je hield een gelijkmatig tempo aan en verloor <strong class="mono">${n}</strong> plaatsen op het einde. <em>De 20 km vreet aan je, dat is normaal.</em>`,
 		held: 'Van start tot finish hield je je plaats in het veld. <em>Metronoom.</em>',
 		fallback: 'Niet genoeg tussentijden dit jaar om je voortgang door het veld te tonen.',

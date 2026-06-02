@@ -114,12 +114,7 @@
 			href="https://www.acn-timing.com/?lng=EN#/events/2159385002573923/ctx/20260531_20km/generic/198014_3/home/ALPHA3"
 			target="_blank"
 			rel="noopener noreferrer"
-		>{t().search.scopeWalkers}</a>{t().search.scopeMid}<a
-			class="source-link"
-			href="https://www.acn-timing.com/?lng=EN#/events/2159385002573923/ctx/20260531_20km/generic/199034_2/home/LIVE2"
-			target="_blank"
-			rel="noopener noreferrer"
-		>{t().search.scopePara}</a>{t().search.scopeAfter}
+		>{t().search.scopeWalkers}</a>{t().search.scopeAfter}
 	</p>
 
 	{#if netError && !stale}

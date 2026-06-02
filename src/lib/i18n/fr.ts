@@ -25,11 +25,9 @@ export const fr: Dict = {
 		hintBib: 'Vérifiez votre numéro de dossard.',
 		hintName:
 			'Vérifiez l’orthographe (prénom puis NOM, comme sur le dossard), ou essayez votre numéro de dossard.',
-		scope: 'Uniquement les coureurs de la course. Les marcheurs et le parathlétisme ont leur propre classement.',
-		scopeBefore: 'Uniquement les coureurs de la course. Voir aussi le classement des ',
-		scopeWalkers: 'marcheurs',
-		scopeMid: ' ou du ',
-		scopePara: 'parathlétisme',
+		scope: 'Coureurs et para-athlètes. Les marcheurs ont leur propre classement.',
+		scopeBefore: 'Coureurs et para-athlètes. Pour les marcheurs, voir leur ',
+		scopeWalkers: 'classement dédié',
 		scopeAfter: '.',
 		disambig: 'Plusieurs coureurs portent ce nom. Choisissez le vôtre :',
 		credit: 'Développement et récit par Ambroise Carton pour Décrypte',
@@ -59,9 +57,11 @@ export const fr: Dict = {
 
 	gender: {
 		eyebrow: 'Coureurs de votre sexe',
-		lede: (othersN, noun, g) =>
+		lede: (othersN, noun, g, isPara) =>
 			`Vous n’étiez pas ${g === 'F' ? 'seule' : 'seul'}. ` +
-			`<strong class="hot mono">${othersN}</strong> autres ${noun}, tous âges confondus, ont couru avec vous.`,
+			(isPara
+				? `<strong class="hot mono">${othersN}</strong> autres para-athlètes, tous âges confondus, ont terminé le parcours avec vous.`
+				: `<strong class="hot mono">${othersN}</strong> autres ${noun}, tous âges confondus, ont couru avec vous.`),
 		ledeFallback: (total) => `Vous étiez parmi les ${total} finishers.`,
 		ariaBar: 'Répartition F / M parmi les finishers',
 		labelF: 'Femmes',
@@ -73,8 +73,8 @@ export const fr: Dict = {
 
 	ageBand: {
 		eyebrow: 'Votre sexe et votre âge',
-		lede: (n, band, g) =>
-			`Parmi ${g === 'F' ? 'elles' : 'eux'}, <strong class="mono">${n}</strong> ${g === 'F' ? 'coureuses' : 'coureurs'} partageaient aussi votre tranche d’âge ` +
+		lede: (n, band, g, isPara) =>
+			`Parmi ${g === 'F' ? 'elles' : 'eux'}, <strong class="mono">${n}</strong> ${isPara ? 'para-athlètes' : g === 'F' ? 'coureuses' : 'coureurs'} partageaient aussi votre tranche d’âge ` +
 			`(<em class="accent">${band}</em>).`,
 		ledeFallback: 'Pas de pairs identifiés dans votre classe d’âge cette année.',
 		legendAll: 'Toutes les classes d’âge',
@@ -83,12 +83,12 @@ export const fr: Dict = {
 
 	catBreakdown: {
 		eyebrow: 'Tous sexes et âges confondus',
-		ledeShare: (n, band, pct) =>
-			`Vous étiez parmi les <strong class="mono">${n}</strong> coureurs ${band}, ` +
+		ledeShare: (n, band, pct, isPara) =>
+			`Vous étiez parmi les <strong class="mono">${n}</strong> ${isPara ? 'para-athlètes' : 'coureurs'} ${band}, ` +
 			`soit <strong class="mono">${pct}%</strong> de tous les finishers. ` +
 			`<em>Toutes les générations étaient là, vous compris.</em>`,
-		ledeRare: (n, band) =>
-			`Vous étiez parmi les <strong class="mono">${n}</strong> coureurs ${band}. ` +
+		ledeRare: (n, band, isPara) =>
+			`Vous étiez parmi les <strong class="mono">${n}</strong> ${isPara ? 'para-athlètes' : 'coureurs'} ${band}. ` +
 			`<em>Une tranche rare. Vous tenez la distance.</em>`,
 		ledeFallback: 'Voici toutes les tranches d’âge, hommes et femmes réunis.',
 		legendF: 'Femmes',
@@ -99,6 +99,7 @@ export const fr: Dict = {
 	chrono: {
 		eyebrow: 'Et vous avez fini en',
 		sub: '20 km dans les jambes. <em>Chapeau pour le chrono.</em>',
+		subPara: '20 km bouclés. <em>Chapeau pour le chrono.</em>',
 		fastestAllLabel: 'Plus rapides du jour',
 		fastestCatLabel: 'Plus rapides de votre catégorie',
 		fastestF: 'femmes',
@@ -186,11 +187,11 @@ export const fr: Dict = {
 
 	rankProgress: {
 		eyebrow: 'Votre course dans le peloton',
-		gainedLate: (n) =>
-			`Sur la fin, vous avez doublé <strong class="mono">${n}</strong> coureurs. <em>Vous avez fini en force.</em>`,
-		gainedNet: (n) =>
+		gainedLate: (n, isPara) =>
+			`Sur la fin, vous avez doublé <strong class="mono">${n}</strong> ${isPara ? 'para-athlètes' : 'coureurs'}. <em>Vous avez fini en force.</em>`,
+		gainedNet: (n, _isPara) =>
 			`Du départ à l’arrivée, vous avez remonté <strong class="mono">${n}</strong> places. <em>Belle gestion.</em>`,
-		lostLate: (n) =>
+		lostLate: (n, _isPara) =>
 			`Vous avez tenu un rythme régulier et laissé filer <strong class="mono">${n}</strong> places sur la fin. <em>Le 20 km use, c’est normal.</em>`,
 		held: 'Du début à la fin, vous avez gardé votre place dans le peloton. <em>Du métronome.</em>',
 		fallback:
